@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c52b7909714c4058bd2a5613f5a95f93" Name="Diagram1">
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.PS_TXN" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_FACILITY_TB" Width="1.5" PointX="3.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_LOCATION_GROUP_TB" Width="1.5" PointX="6" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_LOCATION_TB" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_LOCATION_TYPE_TB" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_LOCATION_X_LOCATION_GROUP_TB" Width="1.5" PointX="8.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_REQUEST_GROUP_TB" Width="1.5" PointX="6" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_REQUEST_TB" Width="1.5" PointX="8.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_TEST_GROUP_TB" Width="1.5" PointX="6" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_TEST_TB" Width="1.5" PointX="5.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_TEST_X_TEST_GROUP_TB" Width="1.5" PointX="8.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.REF_WATER_BODY_TB" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.sysdiagram" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_RECWATER" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_TEMP_WEATHER_DATA" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_USER" Width="1.5" PointX="10.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_USER_ROLE" Width="1.5" PointX="13" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TRN_RESULT_TB" Width="1.5" PointX="7.5" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TRN_SAMPLE_TB" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TRN_SEWER_OVERFLOW_TB" Width="1.5" PointX="6" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_FACILITY_SEQ" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_LOCATION_GROUP_SEQ" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_LOCATION_SEQ" Width="1.5" PointX="12.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_LOCATION_TYPE_SEQ" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_PS_TXN_SEQ" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_RECWATER_SEQ" Width="1.5" PointX="9.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_REQUEST_GROUP_SEQ" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_REQUEST_SEQ" Width="1.5" PointX="11.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_RESULTS_SEQ" Width="1.5" PointX="13.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_SAMPLE_SEQ" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_SEWER_OVERFLOW_SEQ" Width="1.5" PointX="14.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_TEST_GROUP_SEQ" Width="1.5" PointX="14.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_TEST_SEQ" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.C_SSMA_seq_WATER_BODY_SEQ" Width="1.5" PointX="14.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_RPT_TEMP_WEATHER" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_RPT_TEMP_YEARDATE" Width="1.5" PointX="9.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_TEMP_CSO" Width="1.5" PointX="11.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_TEMP_EXPAND" Width="1.5" PointX="15.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_TEMP_MAIN_DETAIL" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TRN_SEWER_OVERFLOW_TB_REF_FACILITY_TB" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_LOCATION_X_GROUP_LOCATION_GROUP_N_LOCATION_GROUP_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_REQUEST_LOCATION_GROUP_N_LOCATION_GROUP_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_LOCATION_X_GROUP_LOCATION_N_LOCATION_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_REF_LOCATION_TB_REF_LOCATION_TYPE_TB_N_LOCATION_TYPE_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_REF_LOCATION_TB_REF_WATER_BODY_TB_N_WATER_BODY_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TRN_SAMPLE_TB_REF_LOCATION_TB_N_LOCATION_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_REQUEST_REQUEST_GROUP_N_REQUEST_GROUP_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_REQUEST_TEST_GROUP_N_TEST_GROUP_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TEST_X_GROUP_TEST_GROUP_N_TEST_GROUP_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TEST_GROUP_RECORDS_TEST_N_TEST_SYSID" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TRN_RESULT_TB_REF_TEST_TB" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TRN_SEWER_OVERFLOW_TB_REF_WATER_BODY_TB" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.USER_ROLE_USER_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_RESULT_SAMPLE_N_SAMPLE_SYSID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_WEATHER_DATA" Width="1.5" PointX="14.375" PointY="16.75" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_CHEMISTRY_DATA" Width="1.5" PointX="16.75" PointY="16.75" />
+        <EntityTypeShape EntityType="EHWaterQuality.Models.EHWaterQualityModel.TBL_ECOLI_DATA" Width="1.5" PointX="0.75" PointY="17.75" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TBL_CHEMISTRY_DATA_REF_TEST_GROUP_TB" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK_TBL_ECOLI_DATA_REF_TEST_GROUP_TB" />
+        <AssociationConnector Association="EHWaterQuality.Models.EHWaterQualityModel.FK__TRN_SAMPL__N_REQ__3DE82FB7" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

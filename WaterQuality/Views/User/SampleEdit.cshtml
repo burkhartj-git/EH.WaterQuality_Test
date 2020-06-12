@@ -1,0 +1,202 @@
+﻿@using EHWaterQuality.ViewModels
+@model SampleEditViewModel
+@{
+    ViewBag.Title = "Edit Samples";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <div class="form-body">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn blue" id="save">Save All</button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Samples
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-scrollable">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Site ID - Location Desc
+                                            </th>
+                                            <th>
+                                                Collected By
+                                            </th>
+                                            <th>
+                                                Collected Date
+                                            </th>
+                                            <th>
+                                                Batch Number
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                            <th>
+                                                Collected Time in hhmm format
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="samples"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        $("#save").on('click', function () {
+            ValidateSamples();
+        })
+        GetSamplesForEdit();
+    })
+
+    function ValidateSamples() {
+        var validated = true;
+        var texts;
+        var batch;
+        var time;
+
+        $("#samples").find('tr').each(function () {
+            var row = $(this);
+            texts = row.find('input[type="text"]');
+            $.each(texts, function () {
+                if ($(this).attr("id") == "batch") {
+                    batch = $(this).val();
+                }
+                if ($(this).attr("id") == "time") {
+                    time = $(this).val();
+                }
+            })
+            if (!$.isNumeric(batch)) {
+                validated = false;
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateBatch") {
+                        $(this).text("Batch must be numeric");
+                    }
+                })
+            }
+            else {
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateBatch") {
+                        $(this).text("");
+                    }
+                })
+            }
+            if (!$.isNumeric(time) || time.length != 4) {
+                validated = false;
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateTime") {
+                        $(this).text("Time must be a 4 digit numeric value");
+                    }
+                })
+            }
+            else {
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateTime") {
+                        $(this).text("");
+                    }
+                })
+            }            
+        })
+
+        if (validated == true) {
+            var reply = confirm("Are you sure that you want to proceed with the selected samples?");
+            if (reply == true) {
+                PutSampleEdits();
+            }
+        }
+    }
+
+    function GetSamplesForEdit() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetSamplesForEdit", "User")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td>" + item.LocationLabel + " - " + item.LocationDescription +
+                        "</td><td>" + item.CollectedBy + "</td><td>" + item.CollectedDate +
+                        "</td><td><input type='text' id='batch' value='" + item.BatchNumber +
+                        "'></td><td id='ValidateBatch' style='color:red'></td><td><input type='text' id='time' value='" + item.CollectedTime +
+                        "'></td><td id='ValidateTime' style='color:red'></td><td><input type='hidden' id='sampleID' value='" + item.SampleID + "'></td></tr>";
+                })
+                $("#samples").html(row);
+            }
+            else {
+                $("#samples").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function PutSampleEdits() {
+        var jsonObj = [];
+        var item = {};
+        var model = @Html.Raw(Json.Encode(Model));
+        var requestGroupID = model.RequestGroupID;
+        var collectedDate = model.CollectedDate;
+        $("#samples").find('tr').each(function () {
+            var row = $(this);
+            var sampleID = row.find('input:hidden[id=sampleID]').val();
+            var batch = row.find('#batch').val();
+            var time = row.find('#time').val();
+
+            item = {}
+            item["First"] = sampleID;
+            item["Second"] = batch;
+            item["Third"] = time;
+
+            jsonObj.push(item);
+
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/PutSampleEdits")';
+        var urlRedirect = '@Html.Raw(@Url.Action("SampleEditConfirm", "User", new { RequestGroupID = "_id_", CollectedDate = "_date_" }))'.replace('_id_', requestGroupID).replace('_date_', collectedDate);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->

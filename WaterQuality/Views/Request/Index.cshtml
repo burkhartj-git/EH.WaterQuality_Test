@@ -1,0 +1,192 @@
+﻿@using EHWaterQuality.ViewModels
+@model RequestIndexViewModel
+@{
+    ViewBag.Title = "Maintain Requests";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Request
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select Request and <button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="delete">Delete</button> |
+                    <button type="button" id="new" class="btn blue">
+                        New Request <i class="fa fa-plus"></i>
+                    </button>
+                    <br />
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Request Group Description
+                                </th>
+                                <th>
+                                    Location Group Description
+                                </th>
+                                <th>
+                                    Test Group Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="requests"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Request Group Description
+                                </th>
+                                <th>
+                                    Location Group Description
+                                </th>
+                                <th>
+                                    Test Group Description
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    Select Request and <button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        New Request <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetRequests();
+    })
+
+    $('#edit').click(function () {
+        EditRequest();
+    })
+
+    $('#edit2').click(function () {
+        EditRequest();
+    })
+
+    $('#delete').click(function () {
+        DeleteRequest();
+    })
+
+    $('#delete2').click(function () {
+        DeleteRequest();
+    })
+
+    $('#new').click(function () {
+        NewRequest();
+    })
+
+    $('#new2').click(function () {
+        NewRequest();
+    })
+
+    function GetRequests() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetRequests", "Request")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='requestCheckbox' name='" + item.RequestID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.RequestGroupDescription +
+                        "</td><td>" + item.LocationGroupDescription +
+                        "</td><td>" + item.TestGroupDescription +
+                        "</td></tr>";
+                })
+                $("#requests").html(row);
+                $("#requests").find(":checkbox").click(function () {
+                    $("#requests").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedRequest();
+            }
+            else {
+                $("#requests").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedRequest() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.ID;
+        if (id != "0") {
+            $('#requests').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditRequest() {
+        var id = 0;
+        $('#requests').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Request for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "Request", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function DeleteRequest() {
+        var id = 0;
+        $('#requests').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Request for delete");
+        }
+        else {
+            var url = '@Url.Action("Delete", "Request", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function NewRequest() {
+        var id = 0;
+        var url = '@Url.Action("Edit", "Request", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

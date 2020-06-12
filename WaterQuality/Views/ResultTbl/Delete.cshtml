@@ -1,0 +1,58 @@
+﻿@using EHWaterQuality.ViewModels
+@model ResultTblDeleteViewModel
+@{
+    ViewBag.Title = "Delete Results";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @if (Model.ShowMessage == true)
+        {
+            <div class='col-md-12'><h2 style='color:red'>@Html.DisplayFor(m => m.Message)</h2></div>
+        }
+        <br />
+        <br />
+    </div>
+    <div class="row">
+        @using (Html.BeginForm("DeleteResult", "ResultTbl", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+        {
+            <label class="control-label col-md-2">Result</label>
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.ID)
+                @Html.HiddenFor(model => model.ID)
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn blue">Delete</button>
+                    <button type="button" class="btn blue" id="back">Back</button>
+                </div>
+            </div>
+        }
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    var model = @Html.Raw(Json.Encode(Model));
+                    var id = model.ID;
+                    var url = '@Url.Action("Index", "ResultTbl", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                })
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "Maintain Location Groups";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Location Group
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select Location Group and <button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="view">View</button> 
+                    <button type="button" class="btn blue" id="delete">Delete</button> |
+                    <button type="button" id="new" class="btn blue">
+                        New Location Group <i class="fa fa-plus"></i>
+                    </button>
+                    <br />
+                    <br />
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Location Group Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="locationGroups"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Location Group Description
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    Select Location Group and <button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="view2">View</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        New Location Group <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetLocationGroups();
+    })
+
+    $('#edit').click(function () {
+        EditLocationGroup();
+    })
+
+    $('#edit2').click(function () {
+        EditLocationGroup();
+    })
+
+    $('#delete').click(function () {
+        DeleteLocationGroup();
+    })
+
+    $('#delete2').click(function () {
+        DeleteLocationGroup();
+    })
+
+    $('#view').click(function () {
+        ViewLocationGroup();
+    })
+
+    $('#view2').click(function () {
+        ViewLocationGroup();
+    })
+
+    $('#new').click(function () {
+        NewLocationGroup();
+    })
+
+    $('#new2').click(function () {
+        NewLocationGroup();
+    })
+
+    function GetLocationGroups() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetLocationGroups", "LocationGroup")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='locationGroupCheckbox' name='" + item.ID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.Description + "</tr>";
+                })
+                $("#locationGroups").html(row);
+                $("#locationGroups").find(":checkbox").click(function () {
+                    $("#locationGroups").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedLocationGroup();
+            }
+            else {
+                $("#locationGroups").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedLocationGroup() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.LocationGroupID;
+        if (id != "0") {
+            $('#locationGroups').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditLocationGroup() {
+        var id = 0;
+        $('#locationGroups').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Location Group for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function DeleteLocationGroup() {
+        var id = 0;
+        $('#locationGroups').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Location Group for delete");
+        }
+        else {
+            var url = '@Url.Action("DeleteLocGr", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function ViewLocationGroup() {
+        var id = 0;
+        var found = false;
+        $('#locationGroups').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                found = true;
+                return false;
+            }
+        })
+        if (found == true) {
+            var url = '@Url.Action("Details", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+        else {
+            alert("Please select a Location Group Description");
+        }
+    }
+
+    function NewLocationGroup() {
+        var id = 0;
+        var url = '@Url.Action("Edit", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

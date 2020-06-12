@@ -1,0 +1,56 @@
+﻿@using EHWaterQuality.ViewModels
+@model WeatherDataUploadViewModel
+@{
+    ViewBag.Title = "Upload Weather Data";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("WeatherDataUploadPost", "User", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                @if (Model.DisplayMessage == true)
+                {
+                    <div class="col-md-12">
+                        <h2 style="color:red">@Html.DisplayFor(m => m.Message)</h2>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                }
+                <div class="row">
+                    <div class="col-md-6">
+                        <label><span class="required">* </span>Choose a File to Upload (file format Excel 2007 or greater)</label>
+                        <!--<input type="file" class="btn blue" name="fileUpload" />-->
+                        @Html.TextBoxFor(m => m.File, new {  type = "file" })
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" class="btn blue" value="Preview" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

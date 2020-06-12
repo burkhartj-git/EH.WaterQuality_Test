@@ -1,0 +1,252 @@
+﻿@using EHWaterQuality.ViewModels
+@model SampleBatchViewModel
+@{
+    ViewBag.Title = "Samples";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+@using (Html.BeginForm())
+{ 
+    @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Request Group</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedRequestGroup, Model.RequestGroups, new { id = "requestGroupDD" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedRequestGroup)</span>
+                    </div>
+
+                    <label class="control-label col-md-2"><span class="required">* </span>Collected Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CollectedDate, new { @class = "datepicker", id = "date" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.CollectedDate)</span>
+                        <span class="help-block">
+                            Enter Date as mm/dd/yyyy
+                        </span>
+                    </div>
+
+                    <label class="control-label col-md-2"><span class="required">* </span>Collected By</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CollectedBy, new { id = "collected" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.CollectedBy)</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="batch">Create Batches</button>
+                        <button type="button" class="btn blue" id="create" disabled>Create Samples</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="javascript:SelectAll();">Select All</a> | <a href="javascript:DeselectAll();">Select None</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Samples
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Select
+                                                </th>
+                                                <th>
+                                                    Location
+                                                </th>
+                                                <th>
+                                                    Request Group
+                                                </th>
+                                                <th>
+                                                    Enter Number of Samples
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="locations"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+@section PageLevelScripts {
+    <script>
+    $(document).ready(function () {
+        $("#batch").on('click', function () {
+            if ($("#date").val() == "") {
+                alert("Please enter Collected Date")
+            }
+            else {
+                if ($("#collected").val() == "") {
+                    alert("Please enter Collected By")
+                }
+                else {
+                    GetLocationsByRequestGroupID($('#requestGroupDD').val());
+                    $("#create").prop('disabled', false);
+                }
+            }
+        })
+        $("#create").on('click', function () {
+            ValidateSamples();
+        })
+    })
+
+    $(function () {
+        $.datepicker.setDefaults(
+            $.extend($.datepicker.regional[''])
+        );
+        $(".datepicker").datepicker();
+        //$(".datepicker").datepicker("setDate", new Date);
+    });
+
+    function SelectAll() {
+        $("#locations").find('input[type="checkbox"]').prop('checked', true);
+    }
+
+    function DeselectAll() {
+        $("#locations").find('input[type="checkbox"]').prop('checked', false);
+    }
+
+    function GetLocationsByRequestGroupID(RequestGroupID) {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetLocationsByRequestGroupID", "User")';
+        $.getJSON(url, { RequestGroupID: RequestGroupID }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    $("#locations").append("<tr><td><input type='checkbox' id='locationCheckbox' name='" + item.ID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.Label + " - " + item.Description +
+                        "</td><td id='requestGroup' name='" + item.RequestGroupID + "'>" + item.RequestGroupID + " - " + item.RequestGroupDescription + "</td><td><input type='number' class='my_textbox' id='locationBatchTextbox' min='1' value='1' name='" + item.ID +
+                        "batch" + "'></td><td id='Validate' style='color:red'></td></tr>");
+                })
+            }
+        });
+    }
+
+    function ValidateSamples() {
+        var found = false;
+        var validated = true;
+
+        $("#locations").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                found = true;
+
+                var id = row.find('input[type="checkbox"]').attr("name");
+                var batches = row.find('input[type="number"]').val();
+
+                if (!$.isNumeric(batches) || batches < 1) {
+                    validated = false;
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "Validate") {
+                            $(this).text("Number of Samples must be numeric greater than zero");
+                        }
+                    })
+                }
+                else {
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "Validate") {
+                            $(this).text("");
+                        }
+                    })
+                }
+            }
+            else {
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "Validate") {
+                        $(this).text("");
+                    }
+                })
+            }
+        });
+
+        if (validated == true) {
+            if (found == true) {
+                PutBatches();
+            }
+            else {
+                alert("Please select at least one Sample");
+            }
+        }
+    }
+
+    function PutBatches() {
+        var jsonObj = [];
+        var item = {};
+        item = {};
+        item["First"] = $("#date").val();
+        item["Second"] = $("#collected").val();
+        item["Third"] = "";
+            jsonObj.push(item);
+            $("#locations").find('tr').each(function () {
+                var row = $(this);
+                if (row.find('input[type="checkbox"]').is(':checked')) {
+                    var id = row.find('input[type="checkbox"]').attr("name");
+                    var batches = row.find('input[type="number"]').val();
+                    var requestGroupID;
+
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "requestGroup") {
+                            requestGroupID = $(this).attr("name");
+                        }
+                    })
+
+                    item = {}
+                    item["First"] = id;
+                    item["Second"] = batches;
+                    item["Third"] = requestGroupID;
+
+                    jsonObj.push(item);
+                }
+            });
+            jsonString = JSON.stringify(jsonObj);
+            var url = '@Url.Content("~/User/PutBatches")';
+            var urlRedirect = '@Url.Content("~/User/Sample")';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: { json: jsonString },
+                success: function () {
+                    window.location.href = urlRedirect;
+                },
+            });
+        }
+    </script>
+}
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->

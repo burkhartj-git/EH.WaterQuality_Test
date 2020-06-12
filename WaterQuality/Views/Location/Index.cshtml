@@ -1,0 +1,303 @@
+﻿@using EHWaterQuality.ViewModels
+@model LocationIndexViewModel
+@{
+    ViewBag.Title = "Maintain Locations";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <span>Location Description </span>
+            <span>@Html.TextBoxFor(model => model.Search, new { id = "searchText" })</span>
+            <span><button class="btn blue" id="search">Search</button></span>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Location
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select Location and <button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="view">View</button>
+                    <button type="button" class="btn blue" id="delete">Delete</button> | 
+                    <button type="button" id="new" class="btn blue">
+                        New Location <i class="fa fa-plus"></i>
+                    </button>
+                    <button type="button" class="btn blue" id="order" style="float: right;">Order Desc</button>
+                    <br />
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Site ID
+                                </th>
+                                <th>
+                                    Location Description
+                                </th>
+                                <th>
+                                    X Coordinate
+                                </th>
+                                <th>
+                                    Y Coordinate
+                                </th>
+                                <th>
+                                    Effective Date
+                                </th>
+                                <th>
+                                    Expired Date
+                                </th>
+                                <th>
+                                    Water Body
+                                </th>
+                                <th>
+                                    Water Shed
+                                </th>
+                                <th>
+                                    Order Up/Down
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="locations"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Site ID
+                                </th>
+                                <th>
+                                    Location Description
+                                </th>
+                                <th>
+                                    X Coordinate
+                                </th>
+                                <th>
+                                    Y Coordinate
+                                </th>
+                                <th>
+                                    Effective Date
+                                </th>
+                                <th>
+                                    Expired Date
+                                </th>
+                                <th>
+                                    Water Body
+                                </th>
+                                <th>
+                                    Water Shed
+                                </th>
+                                <th>
+                                    Order Up/Down
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    Select Location and <button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="view2">View</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        New Location <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetLocations("Asc");
+    })
+
+    $('#order').click(function () {
+        if ($('#order').text() == "Order Asc") {
+            GetLocations("Asc");
+            $('#order').text("Order Desc");
+        }
+        else
+        {
+            GetLocations("Desc");
+            $('#order').text("Order Asc");
+        }
+    })
+
+    $('#search').click(function () {
+        if ($('#order').text() == "Order Desc") {
+            GetLocations("Asc");
+        }
+        else
+        {
+            GetLocations("Desc");
+        }
+    })
+
+    $('#edit').click(function () {
+        EditLocation();
+    })
+
+    $('#edit2').click(function () {
+        EditLocation();
+    })
+
+    $('#view').click(function () {
+        ViewLocation();
+    })
+
+    $('#view2').click(function () {
+        ViewLocation();
+    })
+
+    $('#delete').click(function () {
+        DeleteLocation();
+    })
+
+    $('#delete2').click(function () {
+        DeleteLocation();
+    })
+
+    $('#new').click(function () {
+        NewLocation();
+    })
+
+    $('#new2').click(function () {
+        NewLocation();
+    })
+
+    function GetLocations(Order) {
+        var search = $('#searchText').val();
+        if (search == "") {
+            search = "all";
+        }
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetLocations", "Location")';
+        $.getJSON(url, { SearchString : search, SearchOrder : Order }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='locationCheckbox' name='" + item.LocationID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.SiteID +
+                        "<td>" + item.LocationDescription +
+                        "<td>" + item.XCoordinate +
+                        "<td>" + item.YCoordinate +
+                        "<td>" + item.EffectiveDate +
+                        "<td>" + item.ExpiredDate +
+                        "<td>" + item.WaterBody +
+                        "<td>" + item.WaterShed +
+                        "<td>" + item.OrderUpDown +
+                        "</tr>";
+                })
+                $("#locations").html(row);
+                $("#locations").find(":checkbox").click(function () {
+                    $("#locations").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedLocation();
+            }
+            else {
+                $("#locations").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedLocation() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.ID;
+        if (id != "0") {
+            $('#locations').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditLocation() {
+        var id = 0;
+        var search = $('#searchText').val();
+        $('#locations').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Location for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "Location", new { ID = "_id_", SearchText = "_search_" })'.replace('_id_', id).replace('_search_', search);
+            window.location.href = url;
+        }
+    }
+
+    function DeleteLocation() {
+        var id = 0;
+        var search = $('#searchText').val();
+        $('#locations').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Location for delete");
+        }
+        else {
+            var url = '@Url.Action("DeleteLoc", "Location", new { ID = "_id_", SearchText = "_search_" })'.replace('_id_', id).replace('_search_', search);
+            window.location.href = url;
+        }
+    }
+
+    function ViewLocation() {
+        var id = 0;
+        var search = $('#searchText').val();
+        var found = false;
+        $('#locations').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                found = true;
+                return false;
+            }
+        })
+        if (found == true) {
+            var url = '@Url.Action("Details", "Location", new { ID = "_id_", SearchText = "_search_", LocationGroupID = "0" })'.replace('_id_', id).replace('_search_', search);
+            window.location.href = url;
+        }
+        else {
+            alert("Please select a Location Description");
+        }
+    }
+
+    function NewLocation() {
+        var id = 0;
+        var search = $('#searchText').val();
+        var url = '@Url.Action("Edit", "Location", new { ID = "_id_", SearchText = "_search_" })'.replace('_id_', id).replace('_search_', search);
+        window.location.href = url;
+    }
+</script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

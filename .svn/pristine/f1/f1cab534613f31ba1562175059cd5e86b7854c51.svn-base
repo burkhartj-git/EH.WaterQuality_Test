@@ -1,0 +1,211 @@
+﻿@using EHWaterQuality.ViewModels
+@model WeatherDataSearchViewModel
+@{
+    ViewBag.Title = "View Weather Data";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span><strong>Weather Month</strong></label>
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(m => m.SelectedMonth, Model.Months, new { id = "monthDD" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedMonth)</span>
+                    </div>
+
+                    <label class="control-label col-md-2"><strong>Weather Year</strong></label>
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(model => model.Year, new { id = "year" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.Year)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="col-md-2"><strong>Weather Data Table Key</strong></label>
+                    <label class="col-md-2"><strong>N</strong>: No data</label>
+                    <label class="col-md-2"><strong>T</strong>: Trace</label>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="search">View Weather Data</button>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        Select and <button type="button" class="btn blue" id="delete">Delete</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="javascript:SelectAll();">Select All</a> | <a href="javascript:DeselectAll();">Select None</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Weather Data
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Select
+                                                </th>
+                                                <th>
+                                                    Collected Date
+                                                </th>
+                                                <th>
+                                                    Max Air Temperature
+                                                </th>
+                                                <th>
+                                                    Min Air Temperature
+                                                </th>
+                                                <th>
+                                                    Mean Air Temperature
+                                                </th>
+                                                <th>
+                                                    Precipitation 24 Hr
+                                                </th>
+                                                <th>
+                                                    Wind Speed
+                                                </th>
+                                                <th>
+                                                    Wind Direction
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="weatherDatas"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        $("#search").on('click', function () {
+            var year = $('#year').val();
+            if (ValidateYear(year) == true) {
+                GetWeatherDataByMonthAndYear();
+            }
+            else {
+                alert("Please enter 4 digits for Weather Year");
+            }
+        })
+        $("#delete").on('click', function () {
+            var result = confirm("Are you sure that you want to delete the Weather Data for the selected dates?");
+            if (result == true) {
+                DeleteSelectedWeatherData();
+            }
+        })
+    })
+
+    function SelectAll() {
+        $("#weatherDatas").find('input[type="checkbox"]').prop('checked', true);
+    }
+
+    function DeselectAll() {
+        $("#weatherDatas").find('input[type="checkbox"]').prop('checked', false);
+    }
+
+    function ValidateYear(year) {
+        if (year == "") {
+            return false;
+        }
+        else {
+            var result = isNaN(year);
+            return !result;
+        }
+    }
+
+    function GetWeatherDataByMonthAndYear() {
+        var month = $('#monthDD').val();
+        var year = $('#year').val();
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetWeatherDataByMonthAndYear", "User")';
+        $.getJSON(url, { Month: month, Year: year }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='weatherCheckbox' name='" + item.WeatherDataID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.CollectedDate + "</td><td>" + item.MaxTemp +
+                        "</td><td>" + item.MinTemp + "</td><td>" + item.MeanTemp +
+                        "</td><td>" + item.WaterPrecip + "</td><td>" + item.WindSpeed + "</td><td>" + item.WindDirection +
+                        "</td></tr>";
+                })
+                $("#weatherDatas").html(row);
+            }
+            else {
+                $("#weatherDatas").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function DeleteSelectedWeatherData() {
+        var jsonObj = [];
+        $("#weatherDatas").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var id = row.find('input[type="checkbox"]').attr("name");
+
+                item = {}
+                item["First"] = id;
+                item["Second"] = "not used";
+                item["Third"] = "not used";
+
+                jsonObj.push(item);
+            }
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/DeleteWeatherData")';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { JsonString: jsonString },
+            success: function () {
+                GetWeatherDataByMonthAndYear()
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("Error AJAX DeleteWeatherData Status: " + textStatus + ", Message: " + errorThrown);
+            }
+        });
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->
+

@@ -1,0 +1,50 @@
+﻿@using EHWaterQuality.ViewModels
+@model SewerOverflowActivityEditConfirmViewModel
+@{
+    ViewBag.Title = "Edit / New Sewer Overflow Activity Confirmation";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <div class="col-md-12">
+        <div class="row">
+            <h2 style="color:green">     Sewer Overflow Activity has been successfully saved.</h2>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-8">
+                <button type="button" class="btn blue" id="back">Back to Search</button>
+            </div>
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    GoBack();
+                })
+            })
+
+            function GoBack() {
+                var model = @Html.Raw(Json.Encode(Model));
+                var fac = model.FacilityID;
+                var startDate = model.SearchStartDate;
+                var endDate = model.SearchEndDate;
+                var url = '@Html.Raw(@Url.Action("SewerOverflowActivity", "User", new { @FacilityID = "_id_", @SearchStartDate = "_startDate_", @SearchEndDate = "_endDate_", @SearchClicked = "true" }))'.replace('_id_', fac).replace('_startDate_', startDate).replace('_endDate_', endDate);
+                window.location.href = url;
+            }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->
+

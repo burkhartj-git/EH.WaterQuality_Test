@@ -1,0 +1,178 @@
+﻿@using EHWaterQuality.ViewModels
+@model ReceivingWaterIndexViewModel
+@{
+    ViewBag.Title = "Maintain Receiving Waters";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Receiving Waters
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select Receiving Water and <button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="delete">Delete</button> |
+                    <button type="button" id="new" class="btn blue">
+                        New Receiving Water <i class="fa fa-plus"></i>
+                    </button>
+                    <br />
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Receiving Water Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="recWaters"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Receiving Water Description
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    Select Receiving Water and <button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        New Receiving Water <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetReceivingWaters();
+    })
+
+    $('#edit').click(function () {
+        EditReceivingWater();
+    })
+
+    $('#edit2').click(function () {
+        EditReceivingWater();
+    })
+
+    $('#delete').click(function () {
+        DeleteReceivingWater();
+    })
+
+    $('#delete2').click(function () {
+        DeleteReceivingWater();
+    })
+
+    $('#new').click(function () {
+        NewReceivingWater();
+    })
+
+    $('#new2').click(function () {
+        NewReceivingWater();
+    })
+
+    function GetReceivingWaters() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetReceivingWaters", "ReceivingWater")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='recWaterCheckbox' name='" + item.ReceivingWaterID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.ReceivingWaterDescription +
+                        "</td></tr>";
+                })
+                $("#recWaters").html(row);
+                $("#recWaters").find(":checkbox").click(function () {
+                    $("#recWaters").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedReceivingWater();
+            }
+            else {
+                $("#recWaters").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedReceivingWater() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.ID;
+        if (id != "0") {
+            $('#recWaters').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditReceivingWater() {
+        var id = 0;
+        $('#recWaters').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Receiving Water for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "ReceivingWater", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function DeleteReceivingWater() {
+        var id = 0;
+        $('#recWaters').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Receiving Water for delete");
+        }
+        else {
+            var url = '@Url.Action("Delete", "ReceivingWater", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function NewReceivingWater() {
+        var id = 0;
+        var url = '@Url.Action("Edit", "ReceivingWater", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

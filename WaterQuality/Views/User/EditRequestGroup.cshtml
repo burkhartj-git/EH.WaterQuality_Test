@@ -1,0 +1,107 @@
+﻿@using EHWaterQuality.ViewModels
+@model EditRequestGroupViewModel
+@{
+    ViewBag.Title = "Edit Request Group for Sample";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Site ID</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.SiteID)
+                        @Html.HiddenFor(model => model.SampleID)
+                        @Html.HiddenFor(model => model.RequestGroupID)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Location Description</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.LocationDescription)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Collected By</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CollectedBy)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Collected Date</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CollectedDate)
+                    </div>
+                </div>
+                <br />
+                <br />                
+                <div class="row">
+                    <label class="control-label col-md-2">Collected Time</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.CollectedTime)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Batch Number</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.BatchNumber)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Set Request Group</label>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(m => m.SelectedRequestGroup, Model.RequestGroups, "- Please Select -")
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="save">Save</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+
+            })
+
+            $('#back').click(function () {
+                var model = @Html.Raw(Json.Encode(Model));
+                var requestGroupID = model.RequestGroupID;
+                var collectedDate = model.CollectedDate;
+                var url = '@Html.Raw(@Url.Action("SampleSearch", "User", new { @RequestGroupID = "_requestGroupID_", @CollectedDate = "_collectedDate_", @SearchClicked = "true" }))'.replace("_requestGroupID_", requestGroupID).replace("_collectedDate_", collectedDate);
+                window.location.href = url;
+            })
+        </script>
+    }
+</body>
+</html>

@@ -1,0 +1,284 @@
+﻿@using EHWaterQuality.ViewModels
+@model ResultEditViewModel
+@{
+    ViewBag.Title = "Edit Results";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <div class="form-body">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="button" class="btn blue" id="save">Save All</button> |
+                    <button type="button" class="btn blue" id="deleteResults">Delete Selected Results</button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-cogs"></i>Results
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="table-scrollable">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Select
+                                            </th>
+                                            <th>
+                                                Site ID - Location Desc
+                                            </th>
+                                            <th>
+                                                Collect Date
+                                            </th>
+                                            <th>
+                                                Batch Number
+                                            </th>
+                                            <th>
+                                                Collect Time
+                                            </th>
+                                            <th>
+                                                Collected By
+                                            </th>
+                                            <th>
+                                                Test Name
+                                            </th>
+                                            <th>
+                                                Flag
+                                            </th>
+                                            <th>
+                                                Temperature (F)
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                            <th>
+                                                Reported Result
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="results"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        $("#save").on('click', function () {
+            ValidateResults();
+        })
+        $("#deleteResults").on('click', function () {
+            if (ValidateDelete() == true) {
+                var result = confirm("Are you sure that you want to delete the selected Results?");
+                if (result == true) {
+                    DeleteResultEdits();
+                }
+            }
+            else {
+                alert("Please select at least one Result");
+            }
+        })
+        GetResultsForEdit();
+    })
+
+    function GetResultsForEdit() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetResultsForEdit", "User")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='resultID' value='" + item.ResultLogID + "' /></td>" +
+                        "<td>" + item.LocationLabel + " - " + item.LocationDescription +
+                        "</td><td>" + item.CollectDate + "</td><td>" + item.BatchNumber +
+                        "</td><td>" + item.CollectTime + "</td><td>" + item.CollectedBy +
+                        "</td><td>" + item.TestName +
+                        "</td><td><input type='text' id='flag' value='" + item.Flag +
+                        "'></td><td><input type='text' id='temp' value='" + item.Temperature +
+                        "'></td><td id='ValidateTemp' style='color:red'></td><td><input type='text' id='result' value='" + item.ReportedResult +
+                        "'></td><td id='ValidateResult' style='color:red'></td><td><input type='hidden' id='sampleID' value='" + item.SampleLogID + "'></td></tr>";
+                })
+                $("#results").html(row);
+            }
+            else {
+                $("#results").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function PutResultEdits() {
+        var jsonObj = [];
+        var item = {};
+        var model = @Html.Raw(Json.Encode(Model));
+        var requestGroupID = model.RequestGroupID;
+        var collectedDate = model.CollectedDate;
+        $("#results").find('tr').each(function () {
+            var row = $(this);
+            var resultID = row.find('#resultID').val();
+            var flag = row.find('#flag').val();
+            var temp = row.find('#temp').val();
+            var result = row.find('#result').val();
+
+            item = {}
+            item["First"] = resultID;
+            item["Second"] = flag;
+            item["Third"] = temp;
+            item["Fourth"] = result;
+
+            jsonObj.push(item);
+
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/PutResultEdits")';
+        var urlRedirect = '@Html.Raw(@Url.Action("ResultEditConfirm", "User", new { RequestGroupID = "_id_", CollectedDate = "_date_" }))'.replace('_id_', requestGroupID).replace('_date_', collectedDate);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+
+    function ValidateDelete() {
+        var found = false;
+        $("#results").find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                found = true;
+                return false;
+            }
+        })
+        return found;
+    }
+
+    function ValidateResults() {
+        /* var found = false;
+        $("#results").find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                found = true;
+                return false;
+            }
+        })
+        return found; */
+
+        var validated = true;
+        var texts;
+        var temp;
+        var result;
+
+        $("#results").find('tr').each(function () {
+            var row = $(this);
+            texts = row.find('input[type="text"]');
+            $.each(texts, function () {
+                if ($(this).attr("id") == "temp") {
+                    temp = $(this).val();
+                }
+                if ($(this).attr("id") == "result") {
+                    result = $(this).val();
+                }
+            })
+
+            if (!$.isNumeric(temp)) {
+                validated = false;
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateTemp") {
+                        $(this).text("Temperature must be numeric");
+                    }
+                })
+            }
+            else {
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateTemp") {
+                        $(this).text("");
+                    }
+                })
+            }
+
+            if (!$.isNumeric(result)) {
+                validated = false;
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateResult") {
+                        $(this).text("Result must be numeric");
+                    }
+                })
+            }
+            else {
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "ValidateResult") {
+                        $(this).text("");
+                    }
+                })
+            }            
+        })
+        if (validated == true) {
+            var reply = confirm("Are you sure that you want to proceed with the selected results?");
+            if (reply == true) {
+                PutResultEdits();
+            }
+        }
+    }
+
+    function DeleteResultEdits() {
+        var jsonObj = [];
+        var item = {};
+        $("#results").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var resultID = row.find('input[type="checkbox"]').attr("value");
+
+                item = {}
+                item["First"] = resultID;
+
+                jsonObj.push(item);
+            }
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/DeleteResultEdits")';
+        var urlRedirect = '@Url.Content("~/User/ResultDeleteConfirm")';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+</script>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->

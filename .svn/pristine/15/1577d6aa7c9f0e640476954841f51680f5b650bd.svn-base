@@ -1,0 +1,56 @@
+﻿@using EHWaterQuality.ViewModels
+@model WaterShedEditViewModel
+@{
+    ViewBag.Title = "Edit / New Water Shed";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @using (Html.BeginForm("Edit", "WaterShed", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+        {
+            <div class="row">
+                <label class="control-label col-md-2"><span class="required">* </span>Water Shed Description</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.WaterShedDescription, new { style = "width:750px;" })
+                    <span style="color:red">@Html.ValidationMessageFor(model => model.WaterShedDescription)</span>
+                    @Html.HiddenFor(model => model.WaterShedID)
+                    @if (Model.ShowMessageDescription == true)
+                    {
+                        <span style="color:red">@Html.DisplayFor(m => m.MessageDescription)</span>
+                    }
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn blue">Save</button>
+                    <button type="button" class="btn blue" id="back">Back</button>
+                </div>
+            </div>
+        }
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    var model = @Html.Raw(Json.Encode(Model));
+                    var id = model.WaterShedID;
+                    var url = '@Url.Action("Index", "WaterShed", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                })
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

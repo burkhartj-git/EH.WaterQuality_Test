@@ -1,0 +1,94 @@
+﻿@using EHWaterQuality.ViewModels
+@model ChemistryDataPreviewViewModel
+@{
+    ViewBag.Title = "Preview Chemistry Data Confirmation";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @if (Model.HasErrors == false)
+    {
+        <div class="form-body">
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 style="color:green">All Chemistry Data has been successfully updated.</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Chemistry Data - @Html.DisplayFor(m => m.ErrorMessage)
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-hover" id="tblChemistryDataPreview">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Site ID
+                                        </th>
+                                        <th>
+                                            Collected Date
+                                        </th>
+                                        <th>
+                                            Collected Time
+                                        </th>
+                                        <th>
+                                            Test Name
+                                        </th>
+                                        <th>
+                                            Sample Type
+                                        </th>
+                                        <th>
+                                            Sample Media
+                                        </th>
+                                        <th>
+                                            Reported Result
+                                        </th>
+                                        <th>
+                                            Units
+                                        </th>
+                                        <th>
+                                            Flag
+                                        </th>
+                                        <th>
+                                            AMethod
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @Html.EditorFor(model => model.ChemistryDataPreviews)
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

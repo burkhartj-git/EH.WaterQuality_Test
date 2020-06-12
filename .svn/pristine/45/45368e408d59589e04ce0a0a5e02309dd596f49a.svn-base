@@ -1,0 +1,185 @@
+﻿@using EHWaterQuality.ViewModels
+@model SewerOverflowActivityEditViewModel
+@{
+    ViewBag.Title = "Edit / New Sewer Overflow Activity";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Facility</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedFacility, Model.Facilities, "-Please Select-", new { id = "facility" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedFacility)</span>
+                        @Html.HiddenFor(m => m.FacilityID)
+                        @Html.HiddenFor(m => m.SearchStartDate)
+                        @Html.HiddenFor(m => m.SearchEndDate)
+                    </div>
+                    <label class="control-label col-md-2">Discharge Gallons</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.DischargeGallons)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.DischargeGallons)</span>
+                        @Html.HiddenFor(model => model.SewerLogID)
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Activity Start Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.StartDate, new { @class = "datepicker", id = "startDate" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.StartDate)</span>
+                        <span class="help-block">
+                            Enter Date as mm/dd/yyyy
+                        </span>
+                    </div>
+                    <label class="control-label col-md-2">Precipitation</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Precipitation)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.Precipitation)</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Activity End Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.EndDate, new { @class = "datepicker", id = "endDate" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.EndDate)</span>
+                        <span class="help-block">
+                            Enter Date as mm/dd/yyyy
+                        </span>
+                    </div>
+                    <label class="control-label col-md-2"><span class="required">* </span>Receiving Water</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedReceivingWater, Model.ReceivingWaters, "-Please Select-", new { id = "waters" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedReceivingWater)</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Activity Start Time</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.StartTime)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.StartTime)</span>
+                        <span class="help-block">
+                            Enter activity start time in hhmm format
+                        </span>
+                    </div>
+                    <label class="control-label col-md-2">Chlorinate</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedChlorinate, Model.Chlorinates, "-Please Select-", new { id = "chlorinates" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedChlorinate)</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Activity End Time</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.EndTime)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.EndTime)</span>
+                        <span class="help-block">
+                            Enter activity end time in hhmm format
+                        </span>
+                    </div>
+                    <label class="control-label col-md-2">Meets NPDES</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedNPDES, Model.NPDESs, "-Please Select-", new { id = "npdes" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedNPDES)</span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Duration</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Duration)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.Duration)</span>
+                    </div>
+                    <label class="control-label col-md-2">Activity Type</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedActivityType, Model.ActivityTypes, "-Please Select-", new { id = "activityTypes" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedActivityType)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="save">Save</button>
+                        <button type="button" class="btn blue" id="delete">Delete</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        $("#back").on('click', function () {
+            GoBack();
+        })
+
+        $("#delete").on('click', function () {
+            DeleteConfirm();
+        })
+    })
+
+    $(function () {
+        $.datepicker.setDefaults(
+            $.extend($.datepicker.regional[''])
+        );
+        $(".datepicker").datepicker();
+        //$(".datepicker").datepicker("setDate", new Date);
+    });
+
+    function DeleteConfirm() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var sewerID = model.SewerLogID;
+
+        if (sewerID == "0") {
+            alert("This is a New record. Please click the Back button to cancel.");
+        }
+        else {
+            var answer = confirm("Are you sure you want to delete this Sewer Overflow Activity?");
+            if (answer) {
+                DeleteSewerOverflowActivity(sewerID);
+            }
+        }
+    }
+
+    function GoBack() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var fac = model.FacilityID;
+        var startDate = model.SearchStartDate;
+        var endDate = model.SearchEndDate;
+        var url = '@Html.Raw(@Url.Action("SewerOverflowActivity", "User", new { @FacilityID = "_id_", @SearchStartDate = "_startDate_", @SearchEndDate = "_endDate_", @SearchClicked = "_searchClicked_" }))'.replace('_id_', fac).replace('_startDate_', startDate).replace('_endDate_', endDate).replace('_searchClicked_', 'true');
+        window.location.href = url;
+    }
+
+    function DeleteSewerOverflowActivity(SewerID) {
+        var model = @Html.Raw(Json.Encode(Model));
+        var fac = model.FacilityID;
+        var startDate = model.SearchStartDate;
+        var endDate = model.SearchEndDate;
+        var url = '@Html.Raw(@Url.Action("SewerOverflowActivityDelete", "User", new { @FacilityID = "_id_", @SearchStartDate = "_startDate_", @SearchEndDate = "_endDate_", @SewerID = "_sewerID_" }))'.replace('_id_', fac).replace('_startDate_', startDate).replace('_endDate_', endDate).replace('_sewerID_', SewerID);
+        window.location.href = url;
+    }
+</script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

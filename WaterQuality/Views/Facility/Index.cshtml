@@ -1,0 +1,170 @@
+﻿@using EHWaterQuality.ViewModels
+@model FacilityIndexViewModel
+@{
+    ViewBag.Title = "Maintain Facilities";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Facility
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    @using (Html.BeginForm("IndexNew", "Facility", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+                    {
+                        <div class="table-toolbar">
+                            <div class="btn-group">
+                                <button id="sample_editable_1_new" class="btn blue">
+                                    Add New Facility <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    <br />
+                    <span>Select Facility and </span><button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="delete">Delete</button>
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Unit
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="facilities">
+                                
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Unit
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <span>Select Facility and </span><button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetFacilities();
+    })
+
+    $('#edit').click(function () {
+        EditFacility();
+    })
+
+    $('#edit2').click(function () {
+        EditFacility();
+    })
+
+    $('#delete').click(function () {
+        DeleteFacility();
+    })
+
+    $('#delete2').click(function () {
+        DeleteFacility();
+    })
+
+    function GetFacilities() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetFacilities", "Facility")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='facilityCheckbox' name='" + item.FacilityID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.FacilityTitle + "</td></tr>";
+                })
+                $("#facilities").html(row);
+                $("#facilities").find(":checkbox").click(function () {
+                    $("#facilities").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedFacility();
+            }
+            else {
+                $("#facilities").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedFacility() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.ID;
+        if (id != "0") {
+            $('#facilities').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditFacility() {
+        var id = 0;
+        $('#facilities').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Facility for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "Facility", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                }
+            }
+
+            function DeleteFacility() {
+                var id = 0;
+                $('#facilities').find(':checkbox').each(function () {
+                    if ($(this).prop("checked") == true) {
+                        id = $(this).prop("name").toString();
+                        return false;
+                    }
+                })
+                if (id == 0) {
+                    alert("Please select a Facility for delete");
+                }
+                else {
+                    var url = '@Url.Action("Delete", "Facility", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                }
+            }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->
+

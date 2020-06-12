@@ -1,0 +1,141 @@
+﻿@using EHWaterQuality.ViewModels
+@model LocationDeleteViewModel
+@{
+    ViewBag.Title = "Delete Location";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @if (Model.ShowMessage == true)
+        {
+            <div class='col-md-12'><h2 style='color:red'>@Html.DisplayFor(m => m.Message)</h2></div>
+        }
+        <br />
+        <br />
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Station #</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.Station)
+                        @Html.HiddenFor(model => model.Station)
+                        @Html.HiddenFor(model => model.LocationID)
+                        @Html.HiddenFor(model => model.SearchText)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Description</label>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(model => model.Description)
+                        @Html.HiddenFor(model => model.Description)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">X Coordinate</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.XCoordinate)
+                        @Html.HiddenFor(model => model.XCoordinate)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Y Coordinate</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.YCoordinate)
+                        @Html.HiddenFor(model => model.YCoordinate)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Effective Date</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.EffectiveDate)
+                        @Html.HiddenFor(model => model.EffectiveDate)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Expired Date</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.ExpiredDate)
+                        @Html.HiddenFor(model => model.ExpiredDate)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Water Body</label>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(m => m.WaterBody)
+                        @Html.HiddenFor(m => m.WaterBody)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Water Shed</label>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(m => m.WaterShed)
+                        @Html.HiddenFor(m => m.WaterShed)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Order Up/Down</label>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(m => m.OrderUpDown)
+                        @Html.HiddenFor(m => m.OrderUpDown)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="delete">Delete</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+
+            })
+
+            $('#back').click(function () {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.LocationID;
+                var search = model.SearchText;
+                var url = '@Url.Action("Index", "Location", new { ID = "_id_", Search = "_search_" })'.replace('_id_', id).replace('_search_', search);
+                window.location.href = url;
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

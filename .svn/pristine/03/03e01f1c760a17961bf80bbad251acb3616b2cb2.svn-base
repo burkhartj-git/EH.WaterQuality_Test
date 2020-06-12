@@ -1,0 +1,120 @@
+﻿@using EHWaterQuality.ViewModels
+@model TestDeleteViewModel
+@{
+    ViewBag.Title = "Delete Test";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @if (Model.ShowMessage == true)
+        {
+            <div class='col-md-12'><h2 style='color:red'>@Html.DisplayFor(m => m.Message)</h2></div>
+        }
+        <br />
+        <br />
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Description</label>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(model => model.Description)
+                        @Html.HiddenFor(model => model.Description)
+                        @Html.HiddenFor(model => model.TestID)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Sample Media</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.SampleMedia)
+                        @Html.HiddenFor(model => model.SampleMedia)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Sample Type</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.SampleType)
+                        @Html.HiddenFor(model => model.SampleType)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Analysis Method</label>
+                    <div class="col-md-6">
+                        @Html.DisplayFor(model => model.AnalysisMethod)
+                        @Html.HiddenFor(model => model.AnalysisMethod)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Unit</label>
+                    <div class="col-md-2">
+                        @Html.DisplayFor(model => model.Unit)
+                        @Html.HiddenFor(model => model.Unit)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Effective Date</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.EffectiveDate)
+                        @Html.HiddenFor(model => model.EffectiveDate)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Expired Date</label>
+                    <div class="col-md-4">
+                        @Html.DisplayFor(model => model.ExpiredDate)
+                        @Html.HiddenFor(model => model.ExpiredDate)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="delete">Delete</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+
+            })
+
+            $('#back').click(function () {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.TestID;
+                var url = '@Url.Action("Index", "Test", new { ID = "_id_" })'.replace('_id_', id);
+                window.location.href = url;
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

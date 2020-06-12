@@ -1,0 +1,275 @@
+﻿@using EHWaterQuality.ViewModels
+@model ResultNewViewModel
+@{
+    ViewBag.Title = "New Results";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Collected Date</label>
+                    <div class="col-md-2">
+                        @Model.CollectedDate
+                    </div>
+
+                    <label class="control-label col-md-2">Collected By</label>
+                    <div class="col-md-2">
+                        @Model.CollectedBy
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="save">Save All</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="javascript:SelectAll();">Select All</a> | <a href="javascript:DeselectAll();">Select None</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>New Results
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Select
+                                                </th>
+                                                <th>
+                                                    Location Description
+                                                </th>
+                                                <th>
+                                                    Batch Number
+                                                </th>
+                                                <th>
+                                                    Test Name
+                                                </th>
+                                                <th>
+                                                    Collected Time
+                                                </th>
+                                                <th>
+                                                    Flag
+                                                </th>
+                                                <th>
+                                                    Temp(F)
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                                <th>
+                                                    Reported Result
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="locations">
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        $("#save").on('click', function () {
+            ValidateResults();
+        })
+        GetResultsByRequestGroupID();
+    })
+
+    function SelectAll() {
+        $("#locations").find('input[type="checkbox"]').prop('checked', true);
+    }
+
+    function DeselectAll() {
+        $("#locations").find('input[type="checkbox"]').prop('checked', false);
+    }
+
+    function ValidateResults() {
+        var found = false;
+        var validated = true;
+        var texts;
+        var temp;
+        var result;
+
+        $("#locations").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                found = true;
+
+                texts = row.find('input[type="text"]');
+                $.each(texts, function () {
+                    if ($(this).attr("id") == "resultTemperatureTextbox") {
+                        temp = $(this).val();
+                    }
+                    if ($(this).attr("id") == "resultReportedResultTextbox") {
+                        result = $(this).val();
+                    }
+                })
+
+                if (!$.isNumeric(temp)) {
+                    validated = false;
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "Validate1") {
+                            $(this).text("Temperature must be numeric");
+                        }
+                    })
+                }
+                else {
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "Validate1") {
+                            $(this).text("");
+                        }
+                    })
+                }
+
+                if (!$.isNumeric(result)) {
+                    validated = false;
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "Validate2") {
+                            $(this).text("Result must be numeric");
+                        }
+                    })
+                }
+                else {
+                    var tds = row.find('td');
+                    $.each(tds, function () {
+                        if ($(this).attr("id") == "Validate2") {
+                            $(this).text("");
+                        }
+                    })
+                }
+            }
+            else {
+                var tds = row.find('td');
+                $.each(tds, function () {
+                    if ($(this).attr("id") == "Validate1" || $(this).attr("id") == "Validate2") {
+                        $(this).text("");
+                    }
+                })
+            }
+        })
+
+        if (validated == true) {
+            if (found == true) {
+                var reply = confirm("Are you sure that you want to proceed with the selected results?");
+                if (reply == true) {
+                    PutResults();
+                }
+            }
+            else {
+                alert("Please select at least one Result");
+            }
+        }
+    }
+
+    function GetResultsByRequestGroupID() {
+        $.ajaxSetup({ cache: false });
+        var url ='@Url.Action("GetResults", "User")';
+        $.getJSON(url, {},  function(response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='resultCheckbox' name='" + item.TestNameID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.LocationLabel + " - " + item.Location +
+                        "</td><td>" + item.Batch + "</td><td>" + item.TestName + "</td><td>" + item.CollectedTime +
+                        "</td><td><input type='text' class='my_textbox' id='resultFlagTextbox' " +
+                        "name='flag' style='width:60px'></td><td><input type='text' class='my_textbox' id='resultTemperatureTextbox'" +
+                        "name='temperature' style='width:60px'></td><td id='Validate1' style='color:red'></td><td><input type='text' class='my_textbox' id='resultReportedResultTextbox'" +
+                        "name='reportedResult' style='width:60px'></td><td id='Validate2' style='color:red'></td><td><input type='hidden' value='" + item.SampleLogID + "'></td></tr>";
+                })
+                $("#locations").html(row);
+            }
+            else {
+                $("#locations").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function PutResults() {
+        var jsonObj = [];
+        var model = @Html.Raw(Json.Encode(Model));
+        var item = {};
+        item = {};
+        item["First"] = model.CollectedDate;
+        item["Second"] = model.CollectedBy;
+        item["Third"] = ""
+        item["Fourth"] = "";
+        item["Fifth"] = "";
+        jsonObj.push(item);
+        $("#locations").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var testID = row.find('#resultCheckbox').attr("name");
+                var flag = row.find('#resultFlagTextbox').val();
+                var temperature = row.find('#resultTemperatureTextbox').val();
+                var reportedResult = row.find('#resultReportedResultTextbox').val();
+                var sampleID = row.find('input[type="hidden"]').val();
+
+                item = {}
+                item["First"] = testID;
+                item["Second"] = flag;
+                item["Third"] = temperature;
+                item["Fourth"] = reportedResult;
+                item["Fifth"] = sampleID;
+
+                jsonObj.push(item);
+            }
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/PutResults")';
+        var urlRedirect = '@Url.Content("~/User/ResultConfirm")';
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->
+

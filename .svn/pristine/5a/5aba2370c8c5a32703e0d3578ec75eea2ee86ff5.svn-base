@@ -1,0 +1,60 @@
+﻿@using EHWaterQuality.ViewModels
+@model TestCreateGroupViewModel
+@{
+    ViewBag.Title = "Edit / New  Assign Test Group to Test";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @using (Html.BeginForm("Create", "Test", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+        {
+            <div class="row">
+                <label class="control-label col-md-2">Test Type</label>
+                <div class="col-md-4">
+                    @Model.TestDescription
+                    @Html.HiddenFor(model => model.ID)
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <label class="control-label col-md-2">Test Group</label>
+                <div class="col-md-6">
+                    @Html.DropDownListFor(m => m.SelectedTestGroup, Model.TestGroups, new { id = "testGroups" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn blue">Save</button>
+                    <button type="button" class="btn blue" id="back">Back</button>
+                </div>
+            </div>
+        }
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    var model = @Html.Raw(Json.Encode(Model));
+                    var id = model.ID;
+                    var url = '@Url.Action("Details", "Test", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                })
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

@@ -1,0 +1,192 @@
+﻿@using EHWaterQuality.ViewModels
+@model LocationGroupDetailsViewModel
+@{
+    ViewBag.Title = "View Location Group";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Location Group</h2>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            Location Group Description: @Model.Description
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <button type="button" class="btn blue" id="back">Back</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Location
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select and
+                    <button type="button" class="btn blue" id="delete">Delete Location from Location Group</button> |
+                    <button type="button" id="new" class="btn blue">
+                        Assign New Location to Location Group <i class="fa fa-plus"></i>
+                    </button>
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Location 
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="locations"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Location 
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" class="btn blue" id="delete2">Delete Location from Location Group</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        Assign New Location to Location Group <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetLocations();
+    })
+
+    $('#back').click(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.LocationGroupID;
+        var url = '@Url.Action("Index", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    })
+
+    $('#delete').click(function () {
+        DeleteLocation();
+    })
+
+    $('#delete2').click(function () {
+        DeleteLocation();
+    })
+
+    $('#new').click(function () {
+        NewLocation();
+    })
+
+    $('#new2').click(function () {
+        NewLocation();
+    })
+
+    function GetLocations() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.LocationGroupID;
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetLocations", "LocationGroup")';
+        $.getJSON(url, { LocationGroupID : id }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='" + item.LocationID + "' name='" + item.LocationGroupID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.LocationDescription +
+                        "</tr>";
+                })
+                $("#locations").html(row);
+                $("#locations").find(":checkbox").click(function () {
+                    $("#locations").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedLocation();
+            }
+            else {
+                $("#locations").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedLocation() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var groupID = model.LocationGroupID;
+        var locID = model.LocationID;
+        if (groupID != "0") {
+            $('#locations').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == groupID &&
+                    $(this).prop("id").toString() == locID) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function DeleteLocation() {
+        var groupID = 0;
+        var locID = 0;
+        var found = false;
+        var model = @Html.Raw(Json.Encode(Model));
+        $('#locations').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                groupID = $(this).prop("name").toString();
+                locID = $(this).prop("id").toString();
+                found = true;
+                return false;
+            }
+        })
+        if (found == true) {
+            if (confirm("Are you sure that you want to delete this Location from the Location Group?")) {
+                var url = '@Url.Action("Delete", "LocationGroup", new { ID = "_locID_", LocationGroupID = "_groupID_" })'.replace('_locID_', locID).replace('_groupID_', groupID);
+                window.location.href = url;
+            }
+        }
+        else {
+            alert("Please select a Location");
+        }
+    }
+
+    function NewLocation() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var locID = model.LocationID;
+        var locGroupID = model.LocationGroupID;
+        var url = '@Url.Action("Create", "LocationGroup", new { ID = "_locID_", LocationGroupID = "_locGroupID_" })'.replace('_locID_', locID).replace('_locGroupID_', locGroupID);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

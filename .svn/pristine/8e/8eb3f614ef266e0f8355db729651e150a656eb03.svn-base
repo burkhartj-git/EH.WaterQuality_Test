@@ -1,0 +1,3 @@
+﻿<connectionStrings>
+  <add name="Entities" connectionString="metadata=res://*/Models.EHWaterQualityModel.csdl|res://*/Models.EHWaterQualityModel.ssdl|res://*/Models.EHWaterQualityModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=vssq10\dv;initial catalog=EH.WaterQuality;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient" />
+</connectionStrings>

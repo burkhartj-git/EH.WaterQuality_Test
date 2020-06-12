@@ -1,0 +1,185 @@
+﻿@using EHWaterQuality.ViewModels
+@model WaterBodyIndexViewModel
+@{
+    ViewBag.Title = "Maintain Water Bodies";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Water Bodies
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select Water Body and <button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="delete">Delete</button> |
+                    <button type="button" id="new" class="btn blue">
+                        New Water Body <i class="fa fa-plus"></i>
+                    </button>
+                    <br />
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="waterBodies"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    Select Water Body and <button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        New Water Body <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetWaterBodies();
+    })
+
+    $('#edit').click(function () {
+        EditWaterBody();
+    })
+
+    $('#edit2').click(function () {
+        EditWaterBody();
+    })
+
+    $('#delete').click(function () {
+        DeleteWaterBody();
+    })
+
+    $('#delete2').click(function () {
+        DeleteWaterBody();
+    })
+
+    $('#new').click(function () {
+        NewWaterBody();
+    })
+
+    $('#new2').click(function () {
+        NewWaterBody();
+    })
+
+    function GetWaterBodies() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetWaterBodies", "WaterBody")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='waterBodyCheckbox' name='" + item.WaterBodyID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.WaterBodyName +
+                        "</td><td>" + item.WaterBodyDescription +
+                        "</td></tr>";
+                })
+                $("#waterBodies").html(row);
+                $("#waterBodies").find(":checkbox").click(function () {
+                    $("#waterBodies").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedWaterBody();
+            }
+            else {
+                $("#waterBodies").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedWaterBody() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.ID;
+        if (id != "0") {
+            $('#waterBodies').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditWaterBody() {
+        var id = 0;
+        $('#waterBodies').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Water Body for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "WaterBody", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function DeleteWaterBody() {
+        var id = 0;
+        $('#waterBodies').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Water Body for delete");
+        }
+        else {
+            var url = '@Url.Action("Delete", "WaterBody", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function NewWaterBody() {
+        var id = 0;
+        var url = '@Url.Action("Edit", "WaterBody", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

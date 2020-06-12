@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EC8F6D46-5314-49AD-B1DB-FB1CD1FD1410}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>$safeprojectname$</RootNamespace>
+    <AssemblyName>EHWaterQuality</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core">
+      <HintPath>packages\DotNetOpenAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.Core.UI">
+      <HintPath>packages\DotNetOpenAuth.Core.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.Core.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.InfoCard">
+      <HintPath>packages\DotNetOpenAuth.InfoCard.4.3.4.13329\lib\net45-full\DotNetOpenAuth.InfoCard.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.InfoCard.UI">
+      <HintPath>packages\DotNetOpenAuth.InfoCard.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.InfoCard.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth">
+      <HintPath>packages\DotNetOpenAuth.OAuth.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Common">
+      <HintPath>packages\DotNetOpenAuth.OAuth.Common.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.Consumer">
+      <HintPath>packages\DotNetOpenAuth.OAuth.Consumer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.Consumer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth.ServiceProvider">
+      <HintPath>packages\DotNetOpenAuth.OAuth.ServiceProvider.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth.ServiceProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2">
+      <HintPath>packages\DotNetOpenAuth.OAuth2.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.AuthorizationServer">
+      <HintPath>packages\DotNetOpenAuth.OAuth2.AuthorizationServer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.AuthorizationServer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.Client">
+      <HintPath>packages\DotNetOpenAuth.OAuth2.Client.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.Client.UI">
+      <HintPath>packages\DotNetOpenAuth.OAuth2.Client.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.Client.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.ClientAuthorization">
+      <HintPath>packages\DotNetOpenAuth.OAuth2.ClientAuthorization.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.ClientAuthorization.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OAuth2.ResourceServer">
+      <HintPath>packages\DotNetOpenAuth.OAuth2.ResourceServer.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OAuth2.ResourceServer.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Core.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.Provider">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Provider.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.Provider.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.Provider.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Provider.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.Provider.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty">
+      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.RelyingParty.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenId.RelyingParty.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.RelyingParty.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenId.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenId.Core.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenId.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenIdInfoCard.UI">
+      <HintPath>packages\DotNetOpenAuth.OpenIdInfoCard.UI.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenIdInfoCard.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetOpenAuth.OpenIdOAuth">
+      <HintPath>packages\DotNetOpenAuth.OpenIdOAuth.4.3.4.13329\lib\net45-full\DotNetOpenAuth.OpenIdOAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.0.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>packages\izenda.itextsharp.4.0.3.0\lib\net20\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>packages\Microsoft.Owin.Security.3.0.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>packages\Microsoft.Owin.Security.Google.3.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>packages\Microsoft.Owin.Security.OAuth.3.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FacilityController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\LocationGroupController.cs" />
+    <Compile Include="Controllers\ReceivingWaterController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
+    <Compile Include="Controllers\RequestGroupController.cs" />
+    <Compile Include="Controllers\ResultTblController.cs" />
+    <Compile Include="Controllers\SampleTblController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TestGroupController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WaterBodyController.cs" />
+    <Compile Include="Controllers\WaterShedController.cs" />
+    <Compile Include="Filters\Log4NetException.cs" />
+    <Compile Include="Filters\MacPrincipal.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetApplication.cs">
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetApplicationRolePermission.cs">
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetApplicationUserRole.cs">
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetPermission.cs">
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_FACILITY_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_LOCATION_GROUP_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_LOCATION_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_LOCATION_TYPE_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_PS_TXN_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_RECWATER_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_REQUEST_GROUP_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_REQUEST_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_RESULTS_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_SAMPLE_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_SEWER_OVERFLOW_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_TEST_GROUP_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_TEST_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C_SSMA_seq_WATER_BODY_SEQ.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EHWaterQualityModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EHWaterQualityModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EHWaterQualityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EHWaterQualityModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EHWaterQualityModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EHWQ_Error.cs" />
+    <Compile Include="Models\NumericAttribute.cs" />
+    <Compile Include="Models\PS_TXN.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_FACILITY_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_LOCATION_GROUP_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_LOCATION_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_LOCATION_TYPE_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_LOCATION_X_LOCATION_GROUP_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_REQUEST_GROUP_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_REQUEST_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_TEST_GROUP_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_TEST_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_TEST_X_TEST_GROUP_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REF_WATER_BODY_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StringDateAttribute.cs" />
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_CHEMISTRY_DATA.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_ECOLI_DATA.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_RECWATER.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_RPT_TEMP_WEATHER.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_RPT_TEMP_YEARDATE.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_TEMP_CSO.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_TEMP_EXPAND.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_TEMP_MAIN_DETAIL.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_TEMP_WEATHER_DATA.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_USER.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_USER_ROLE.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBL_WEATHER_DATA.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TimeAttribute.cs" />
+    <Compile Include="Models\TRN_RESULT_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRN_SAMPLE_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TRN_SEWER_OVERFLOW_TB.cs">
+      <DependentUpon>EHWaterQualityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebInterface.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebInterface.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebInterface.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebInterface.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WebInterface.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebInterface.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Filters\MacAuthenticate.cs" />
+    <Compile Include="Filters\MacAuthorize.cs" />
+    <Compile Include="Repositories\FacilityGet.cs" />
+    <Compile Include="Repositories\GenericEHWaterQualityRepository.cs" />
+    <Compile Include="Repositories\GenericEHWaterQualityUnitOfWork.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\LocationGet.cs" />
+    <Compile Include="Repositories\ReceivingWaterGet.cs" />
+    <Compile Include="Repositories\RequestGroupGet.cs" />
+    <Compile Include="Repositories\ResultLogGet.cs" />
+    <Compile Include="Repositories\ResultTblGet.cs" />
+    <Compile Include="Repositories\SampleLogGet.cs" />
+    <Compile Include="Repositories\SampleTblGet.cs" />
+    <Compile Include="Repositories\SewerOverflowLogGet.cs" />
+    <Compile Include="Repositories\TestGet.cs" />
+    <Compile Include="Repositories\WaterBodyGet.cs" />
+    <Compile Include="Repositories\WaterShedGet.cs" />
+    <Compile Include="Repositories\WeatherDataLogGet.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="Utilities\Batch.cs" />
+    <Compile Include="Utilities\ChemistryData.cs" />
+    <Compile Include="Utilities\ChemistryExcelLinq.cs" />
+    <Compile Include="Utilities\EcoliData.cs" />
+    <Compile Include="Utilities\EcoliExcelLinq.cs" />
+    <Compile Include="Utilities\ExcelFileInfo.cs" />
+    <Compile Include="Utilities\Facility.cs" />
+    <Compile Include="Utilities\LocationDetails.cs" />
+    <Compile Include="Utilities\LocationGroupDetails.cs" />
+    <Compile Include="Utilities\LocationGroupIndex.cs" />
+    <Compile Include="Utilities\LocationIndex.cs" />
+    <Compile Include="Utilities\NaturalSortComparer.cs" />
+    <Compile Include="Utilities\ReceivingWaterIndex.cs" />
+    <Compile Include="Utilities\RequestGroupIndex.cs" />
+    <Compile Include="Utilities\RequestIndex.cs" />
+    <Compile Include="Utilities\TestDetails.cs" />
+    <Compile Include="Utilities\TestGroupIndex.cs" />
+    <Compile Include="Utilities\TestIndex.cs" />
+    <Compile Include="Utilities\WaterBodyIndex.cs" />
+    <Compile Include="Utilities\WaterShedIndex.cs" />
+    <Compile Include="Utilities\WeatherDataSearch.cs" />
+    <Compile Include="Utilities\WeatherExcelLinq.cs" />
+    <Compile Include="Utilities\JsonResultItem.cs" />
+    <Compile Include="Utilities\JsonSampleItem.cs" />
+    <Compile Include="Utilities\Location.cs" />
+    <Compile Include="Utilities\Result.cs" />
+    <Compile Include="Utilities\ResultEdit.cs" />
+    <Compile Include="Utilities\Sample.cs" />
+    <Compile Include="Utilities\SampleJson.cs" />
+    <Compile Include="Utilities\SampleList.cs" />
+    <Compile Include="Utilities\SampleSearch.cs" />
+    <Compile Include="Utilities\SessionHelper.cs" />
+    <Compile Include="Utilities\SessionVars.cs" />
+    <Compile Include="Utilities\SewerOverflowActivityEdit.cs" />
+    <Compile Include="Utilities\SewerOverflowActivitySearch.cs" />
+    <Compile Include="Utilities\Test.cs" />
+    <Compile Include="Utilities\WeatherData.cs" />
+    <Compile Include="Utilities\WebApiGetRequest.cs" />
+    <Compile Include="ViewModels\ChemistryDataPreviewEditorViewModel.cs" />
+    <Compile Include="ViewModels\ChemistryDataPreviewViewModel.cs" />
+    <Compile Include="ViewModels\ChemistryDataUploadViewModel.cs" />
+    <Compile Include="ViewModels\EcoliDataPreviewEditorViewModel.cs" />
+    <Compile Include="ViewModels\EcoliDataPreviewViewModel.cs" />
+    <Compile Include="ViewModels\EcoliDataUploadViewModel.cs" />
+    <Compile Include="ViewModels\EditRequestGroupViewModel.cs" />
+    <Compile Include="ViewModels\FacilityDeleteViewModel.cs" />
+    <Compile Include="ViewModels\FacilityEditViewModel.cs" />
+    <Compile Include="ViewModels\FacilityIndexViewModel.cs" />
+    <Compile Include="ViewModels\LocationCreateGroupViewModel.cs" />
+    <Compile Include="ViewModels\LocationDeleteViewModel.cs" />
+    <Compile Include="ViewModels\LocationDetailsViewModel.cs" />
+    <Compile Include="ViewModels\LocationEditViewModel.cs" />
+    <Compile Include="ViewModels\LocationGroupCreateLocationViewModel.cs" />
+    <Compile Include="ViewModels\LocationGroupDeleteViewModel.cs" />
+    <Compile Include="ViewModels\LocationGroupDetailsViewModel.cs" />
+    <Compile Include="ViewModels\LocationGroupEditViewModel.cs" />
+    <Compile Include="ViewModels\LocationIndexViewModel.cs" />
+    <Compile Include="ViewModels\ReceivingWaterDeleteViewModel.cs" />
+    <Compile Include="ViewModels\ReceivingWaterEditViewModel.cs" />
+    <Compile Include="ViewModels\ReceivingWaterIndexViewModel.cs" />
+    <Compile Include="ViewModels\RequestDeleteViewModel.cs" />
+    <Compile Include="ViewModels\RequestEditViewModel.cs" />
+    <Compile Include="ViewModels\RequestGroupDeleteViewModel.cs" />
+    <Compile Include="ViewModels\RequestGroupEditViewModel.cs" />
+    <Compile Include="ViewModels\RequestGroupIndexViewModel.cs" />
+    <Compile Include="ViewModels\RequestIndexViewModel.cs" />
+    <Compile Include="ViewModels\ResultConfirmViewModel.cs" />
+    <Compile Include="ViewModels\ResultEditConfirmViewModel.cs" />
+    <Compile Include="ViewModels\ResultEditViewModel.cs" />
+    <Compile Include="ViewModels\ResultNewViewModel.cs" />
+    <Compile Include="ViewModels\ResultTblDeleteViewModel.cs" />
+    <Compile Include="ViewModels\ResultTblIndexViewModel.cs" />
+    <Compile Include="ViewModels\SampleBatchViewModel.cs" />
+    <Compile Include="ViewModels\SampleEditConfirmViewModel.cs" />
+    <Compile Include="ViewModels\SampleEditViewModel.cs" />
+    <Compile Include="ViewModels\SampleSearchViewModel.cs" />
+    <Compile Include="ViewModels\SampleTblDeleteViewModel.cs" />
+    <Compile Include="ViewModels\SampleTblIndexViewModel.cs" />
+    <Compile Include="ViewModels\SampleViewModel.cs" />
+    <Compile Include="ViewModels\SewerOverflowActivityEditConfirmViewModel.cs" />
+    <Compile Include="ViewModels\SewerOverflowActivityEditViewModel.cs" />
+    <Compile Include="ViewModels\SewerOverflowActivityViewModel.cs" />
+    <Compile Include="ViewModels\TestCreateGroupViewModel.cs" />
+    <Compile Include="ViewModels\TestDeleteViewModel.cs" />
+    <Compile Include="ViewModels\TestDetailsViewModel.cs" />
+    <Compile Include="ViewModels\TestEditViewModel.cs" />
+    <Compile Include="ViewModels\TestGroupCreateTestViewModel.cs" />
+    <Compile Include="ViewModels\TestGroupDeleteViewModel.cs" />
+    <Compile Include="ViewModels\TestGroupDetailsViewModel.cs" />
+    <Compile Include="ViewModels\TestGroupEditViewModel.cs" />
+    <Compile Include="ViewModels\TestGroupIndexViewModel.cs" />
+    <Compile Include="ViewModels\TestIndexViewModel.cs" />
+    <Compile Include="ViewModels\WaterBodyDeleteViewModel.cs" />
+    <Compile Include="ViewModels\WaterBodyEditViewModel.cs" />
+    <Compile Include="ViewModels\WaterBodyIndexViewModel.cs" />
+    <Compile Include="ViewModels\WaterShedDeleteViewModel.cs" />
+    <Compile Include="ViewModels\WaterShedEditViewModel.cs" />
+    <Compile Include="ViewModels\WaterShedIndexViewModel.cs" />
+    <Compile Include="ViewModels\WeatherDataPreviewEditorViewModel.cs" />
+    <Compile Include="ViewModels\WeatherDataPreviewViewModel.cs" />
+    <Compile Include="ViewModels\WeatherDataSearchViewModel.cs" />
+    <Compile Include="ViewModels\WeatherDataUploadViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Images\waterSamplingHeader.gif" />
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Libraries\EPPlus.dll" />
+    <Content Include="Models\EHWaterQualityModel.edmx.sql" />
+    <Content Include="Models\WebInterface.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebInterface.edmx</DependentUpon>
+      <LastGenOutput>WebInterface.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WebInterface.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WebInterface.edmx</DependentUpon>
+      <LastGenOutput>WebInterface.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\jquery-ui-1.11.1.js" />
+    <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\ContactUs.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\uploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="configs\appSettings.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="configs\connStrings.config" />
+    <Content Include="configs\log4net.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="packages.config" />
+    <EntityDeploy Include="Models\EHWaterQualityModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EHWaterQualityModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EHWaterQualityModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EHWaterQualityModel.edmx</DependentUpon>
+      <LastGenOutput>EHWaterQualityModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EHWaterQualityModel.edmx.diagram">
+      <DependentUpon>EHWaterQualityModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\EHWaterQualityModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EHWaterQualityModel.edmx</DependentUpon>
+      <LastGenOutput>EHWaterQualityModel.cs</LastGenOutput>
+    </Content>
+    <EntityDeploy Include="Models\WebInterface.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WebInterface.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WebInterface.edmx.diagram">
+      <DependentUpon>WebInterface.edmx</DependentUpon>
+    </Content>
+    <None Include="Project_Readme.html" />
+    <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\Error\Generic.cshtml" />
+    <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\UnAuthorized.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\User\SampleBatch.cshtml" />
+    <Content Include="Views\User\Sample.cshtml" />
+    <Content Include="Views\User\ResultNew.cshtml" />
+    <Content Include="Views\User\SampleSearch.cshtml" />
+    <Content Include="Views\User\ResultConfirm.cshtml" />
+    <Content Include="Views\User\SampleEdit.cshtml" />
+    <Content Include="Views\User\ResultEdit.cshtml" />
+    <Content Include="Views\User\SampleEditConfirm.cshtml" />
+    <Content Include="Views\User\ResultEditConfirm.cshtml" />
+    <Content Include="Views\User\ResultDeleteConfirm.cshtml" />
+    <Content Include="Views\User\SewerOverflowActivity.cshtml" />
+    <Content Include="Views\User\SewerOverflowActivityEdit.cshtml" />
+    <Content Include="Views\User\SewerOverflowActivityEditConfirm.cshtml" />
+    <Content Include="Views\User\WeatherDataUpload.cshtml" />
+    <Content Include="Views\User\WeatherDataPreview.cshtml" />
+    <Content Include="Views\User\EditorTemplates\WeatherDataPreviewEditorViewModel.cshtml" />
+    <Content Include="Views\User\WeatherDataPreviewConfirm.cshtml" />
+    <Content Include="Views\User\WeatherDataSearch.cshtml" />
+    <Content Include="Views\User\ChemistryDataUpload.cshtml" />
+    <Content Include="Views\User\EditorTemplates\ChemistryDataPreviewEditorViewModel.cshtml" />
+    <Content Include="Views\User\ChemistryDataPreviewConfirm.cshtml" />
+    <Content Include="Views\User\ChemistryDataPreview.cshtml" />
+    <Content Include="Views\User\EditorTemplates\EcoliDataPreviewEditorViewModel.cshtml" />
+    <Content Include="Views\User\EcoliDataUpload.cshtml" />
+    <Content Include="Views\User\EcoliDataPreviewConfirm.cshtml" />
+    <Content Include="Views\User\EcoliDataPreview.cshtml" />
+    <Content Include="Views\Facility\Index.cshtml" />
+    <Content Include="Views\Facility\Edit.cshtml" />
+    <Content Include="Views\Location\Create.cshtml" />
+    <Content Include="Views\Location\Details.cshtml" />
+    <Content Include="Views\Location\Edit.cshtml" />
+    <Content Include="Views\Location\Index.cshtml" />
+    <Content Include="Views\LocationGroup\Create.cshtml" />
+    <Content Include="Views\LocationGroup\Details.cshtml" />
+    <Content Include="Views\LocationGroup\Edit.cshtml" />
+    <Content Include="Views\LocationGroup\Index.cshtml" />
+    <Content Include="Views\Test\Create.cshtml" />
+    <Content Include="Views\Test\Details.cshtml" />
+    <Content Include="Views\Test\Edit.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\TestGroup\Create.cshtml" />
+    <Content Include="Views\TestGroup\Details.cshtml" />
+    <Content Include="Views\TestGroup\Edit.cshtml" />
+    <Content Include="Views\TestGroup\Index.cshtml" />
+    <Content Include="Views\Request\Edit.cshtml" />
+    <Content Include="Views\Request\Index.cshtml" />
+    <Content Include="Views\RequestGroup\Edit.cshtml" />
+    <Content Include="Views\RequestGroup\Index.cshtml" />
+    <Content Include="Views\WaterBody\Edit.cshtml" />
+    <Content Include="Views\WaterBody\Index.cshtml" />
+    <Content Include="Views\WaterShed\Edit.cshtml" />
+    <Content Include="Views\WaterShed\Index.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\WISC10.pubxml" />
+    <Content Include="Views\ReceivingWater\Edit.cshtml" />
+    <Content Include="Views\ReceivingWater\Index.cshtml" />
+    <Content Include="Views\Facility\Delete.cshtml" />
+    <Content Include="Views\Location\DeleteLoc.cshtml" />
+    <Content Include="Views\LocationGroup\DeleteLocGr.cshtml" />
+    <Content Include="Views\Test\DeleteTest.cshtml" />
+    <Content Include="Views\TestGroup\DeleteTestGr.cshtml" />
+    <Content Include="Views\Request\Delete.cshtml" />
+    <Content Include="Views\RequestGroup\Delete.cshtml" />
+    <Content Include="Views\WaterBody\Delete.cshtml" />
+    <Content Include="Views\WaterShed\Delete.cshtml" />
+    <Content Include="Views\ReceivingWater\Delete.cshtml" />
+    <Content Include="Views\User\EditRequestGroup.cshtml" />
+    <Content Include="Views\SampleTbl\Index.cshtml" />
+    <Content Include="Views\SampleTbl\Delete.cshtml" />
+    <Content Include="Views\ResultTbl\Index.cshtml" />
+    <Content Include="Views\ResultTbl\Delete.cshtml" />
+    <None Include="Properties\PublishProfiles\WISC20.pubxml" />
+    <None Include="Properties\PublishProfiles\WISC30.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>17046</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:17046/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <Import Project="packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

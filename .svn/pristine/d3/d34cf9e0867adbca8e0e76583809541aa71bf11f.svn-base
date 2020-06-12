@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+Welcome to @System.Configuration.ConfigurationManager.AppSettings["Application.DisplayName"]
+<!-- END PAGE CONTENT -->

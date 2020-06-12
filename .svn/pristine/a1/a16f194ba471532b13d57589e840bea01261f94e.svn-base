@@ -1,0 +1,79 @@
+﻿@using EHWaterQuality.ViewModels
+@model EcoliDataPreviewViewModel
+@{
+    ViewBag.Title = "Preview Ecoli Data Confirmation";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @if (Model.HasErrors == false)
+    {
+        <div class="form-body">
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 style="color:green">All Ecoli Data has been successfully updated.</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Ecoli Data - These records are Duplicates and did NOT Save
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-hover" id="tblEcoliDataPreview">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Site ID
+                                        </th>
+                                        <th>
+                                            Collected Date
+                                        </th>
+                                        <th>
+                                            Collected Time
+                                        </th>
+                                        <th>
+                                            Test Name
+                                        </th>
+                                        <th>
+                                            Result Value
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   @Html.EditorFor(model => model.EcoliDataPreviews)
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

@@ -1,0 +1,131 @@
+﻿@using EHWaterQuality.ViewModels
+@model WeatherDataPreviewViewModel
+@{
+    ViewBag.Title = "Preview Weather Data";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("WeatherDataPreview", "User", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-md-2"><strong>Month</strong>: @Html.DisplayFor(Model => Model.Month)</label>
+                    <label class="col-md-2"><strong>Year</strong>: @Html.DisplayFor(Model => Model.Year)</label>
+                    @Html.HiddenFor(Model => Model.Month)
+                    @Html.HiddenFor(Model => Model.Year)
+                    @Html.HiddenFor(Model => Model.ExcelFilePath)
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="col-md-2"><strong>Weather Data Table Key</strong></label>
+                    <label class="col-md-2"><strong>N</strong>: No data</label>
+                    <label class="col-md-2"><strong>T</strong>: Trace</label>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" class="btn blue" value="Error" id="save" disabled />
+                        <input type="button" class="btn blue" value="Back" id="back" />
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row" id="message">
+                    <div class="col-md-12">
+                        <span style="color:red">@Html.DisplayFor(Model => Model.ErrorMessage)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Weather Data
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover" id="tblWeatherDataPreview">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Day
+                                                    </th>
+                                                    <th>
+                                                        Max Temperature
+                                                    </th>
+                                                    <th>
+                                                        Min Temperature
+                                                    </th>
+                                                    <th>
+                                                        Mean Temperature
+                                                    </th>
+                                                    <th>
+                                                        Water Precipitation
+                                                    </th>
+                                                    <th>
+                                                        Max Wind Speed
+                                                    </th>
+                                                    <th>
+                                                        Max Wind Speed Direction
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @Html.EditorFor(model => model.WeatherDataPreviews)
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+@section PageLevelScripts {
+    <script>
+        $(document).ready(function () {
+            SetSave();
+        })
+
+        $('#back').click(function () {
+            RenderWeatherDataUploadView();
+        })
+        function RenderWeatherDataUploadView() {
+            var url = "@Url.Action("WeatherDataUpload", "User")";
+            window.location.href = url;
+        }
+
+        function SetSave() {
+            var model = @Html.Raw(Json.Encode(Model));
+            if (model.HasErrors == false) {
+                document.getElementById("save").disabled=false;
+                document.getElementById("save").value="Save";
+                document.getElementById("message").innerHTML="<div class='col-md-12'><span style='color:green'>No errors found in the Weather Data.</span></div>";
+            }
+        }
+</script>
+}
+</body>
+</html>
+<!-- END PAGE CONTENT -->

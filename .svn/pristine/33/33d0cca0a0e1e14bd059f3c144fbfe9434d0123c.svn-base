@@ -1,0 +1,162 @@
+﻿@{
+    ViewBag.Title = "Delete Results";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box box-details">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-delete"></i>Results
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-2"><label><strong>Sample ID #:</strong></label></div>
+                            <div class="col-md-3"><input type="text" id="sampleID"></div><br /><br />
+                            <div class="col-md-7"><button type="submit" class="btn btn-search btn-default" onclick="FetchResults()"><strong>Submit</strong></button></div>
+                        </div>
+                    </div>
+                    <span>Select Result and </span><button type="button" class="btn btn-delete btn-default" id="delete">Delete</button>
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Result ID
+                                </th>
+                                <th>
+                                    Result Value
+                                </th>
+                                <th>
+                                    Result Value Indicator
+                                </th>
+                                <th>
+                                    Test
+                                </th>
+                                <th>
+                                    Sample ID
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="results"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Result ID
+                                </th>
+                                <th>
+                                    Result Value
+                                </th>
+                                <th>
+                                    Result Value Indicator
+                                </th>
+                                <th>
+                                    Test
+                                </th>
+                                <th>
+                                    Sample ID
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <span>Select Result and </span><button type="button" class="btn btn-delete btn-default" id="delete2">Delete</button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $('#delete').click(function () {
+                DeleteResult();
+            })
+
+            $('#delete2').click(function () {
+                DeleteResult();
+            })
+
+            function FetchResults() {
+                var sampleID = $("#sampleID").val();
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetResults")',
+                    dataType: 'json',
+                    data: { id: sampleID },
+                    success: function (response) {
+                        if (response.length) {
+                            var row = "";
+                            $.each(response, function (index, item) {
+                                row += "<tr><td><input type='checkbox' id='resultCheckbox' name='" + item.ResultID + "'" +
+                                    " class='my_chkBox' /></td><td>" + item.ResultID + "</td><td>" + item.ResultValue + "</td><td>" + item.ResultValueIndicator + "</td><td>" + item.Test + "</td><td>" + item.SampleID + "</td></tr>";
+                            })
+                            $("#results").html(row);
+                            $("#results").find(":checkbox").click(function () {
+                                $("#results").find(":checkbox").removeAttr("checked");
+                                $(this).prop("checked", true);
+                            })
+                            SelectedResult();
+                        }
+                        else {
+                            $("#results").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+                        }
+                    },
+                    error: function (ex) {
+                        alert('Error - failed to retrieve Results. ' + ex);
+                    }
+                })
+            };
+
+            function SelectedResult() {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.ID;
+                if (id != "0") {
+                    $('#results').find(':checkbox').each(function () {
+                        if ($(this).prop("name").toString() == id) {
+                            $(this).prop('checked', true);
+                        }
+                    })
+                }
+            }
+
+            function DeleteResult() {
+                var id = 0;
+                $('#results').find(':checkbox').each(function () {
+                    if ($(this).prop("checked") == true) {
+                        id = $(this).prop("name").toString();
+                        return false;
+                    }
+                })
+                if (id == 0) {
+                    alert("Please select a Result for delete");
+                }
+                else {
+                    var url = '@Url.Action("Delete", "ResultTbl", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                }
+            }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

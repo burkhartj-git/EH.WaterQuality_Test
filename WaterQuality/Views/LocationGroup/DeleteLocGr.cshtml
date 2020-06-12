@@ -1,0 +1,62 @@
+﻿@using EHWaterQuality.ViewModels
+@model LocationGroupDeleteViewModel
+@{
+    ViewBag.Title = "Delete Location Group";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Location Group</label>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Description)
+                        @Html.HiddenFor(model => model.ID)
+                        @Html.HiddenFor(model => model.Description)
+                        @if (Model.ShowMessageDescription == true)
+                        {
+                            <span style="color:red">@Html.DisplayFor(m => m.MessageDescription)</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="delete">Delete</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+
+            })
+
+            $('#back').click(function () {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.ID;
+                var url = '@Url.Action("Index", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+                window.location.href = url;
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

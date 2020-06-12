@@ -1,0 +1,294 @@
+﻿@using EHWaterQuality.ViewModels
+@model SampleViewModel
+@{
+    ViewBag.Title = "Samples";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Collected Date</label>
+                    <div class="col-md-2">
+                        @Model.CollectedDate
+                    </div>
+
+                    <label class="control-label col-md-2">Collected By</label>
+                    <div class="col-md-2">
+                        @Model.CollectedBy
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="save">Save All</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="javascript:SelectAll();">Select All</a> | <a href="javascript:DeselectAll();">Select None</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Samples
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Select
+                                                </th>
+                                                <th>
+                                                    Location
+                                                </th>
+                                                <th>
+                                                    Request Group
+                                                </th>
+                                                <th>
+                                                    Batch Number
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                                <th>
+                                                    Collected Time in hhmm format
+                                                </th>
+                                                <th>
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="locations">
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#save").on('click', function () {
+                    console.log("Save all button clicked");
+                    ValidateSamples();
+                })
+                GetLocationsByRequestGroupID();
+            })
+
+            function SelectAll() {
+                $("#locations").find('input[type="checkbox"]').prop('checked', true);
+            }
+
+            function DeselectAll() {
+                $("#locations").find('input[type="checkbox"]').prop('checked', false);
+            }
+
+            function ValidateSamples() {
+                console.log("ValidateSamples function called successfully");
+                var found = false;
+                var validated = true;
+
+                $("#locations").find('tr').each(function () {
+                    console.log("Finding each location record");
+                    var row = $(this);
+                    if (row.find('input[type="checkbox"]').is(':checked')) {
+                        console.log("If location checkbox checked");
+                        found = true;
+
+                        var batch = row.find('input[type="number"]').val();
+                        console.log("Set batch number");
+                        var time = row.find('input[type="text"]').val();
+                        console.log("Set collected time");
+
+                        if (!$.isNumeric(batch) || batch < 1) {
+                            console.log("If batch number is not numeric");
+                            validated = false;
+                            var tds = row.find('td');
+                            $.each(tds, function () {
+                                if ($(this).attr("id") == "Validate1") {
+                                    $(this).text("Batch Number must be numeric greater than zero");
+                                }
+                            })
+                            console.log("Display error message for batch number - value: " + batch);
+                        }
+                        else {
+                            var tds = row.find('td');
+                            $.each(tds, function () {
+                                if ($(this).attr("id") == "Validate1") {
+                                    $(this).text("");
+                                }
+                            })
+                            console.log("Batch number is numeric. No error message.");
+                        }
+
+                        if (!$.isNumeric(time) || time.length != 4) {
+                            console.log("If time not numeric")
+                            console.log("If time length is not equal to 4")
+                            validated = false;
+                            var tds = row.find('td');
+                            $.each(tds, function () {
+                                if ($(this).attr("id") == "Validate2") {
+                                    $(this).text("Collected Time must be a 4 digit numeric value");
+                                }
+                            })
+                            console.log("Display error message for time - value: " + time);
+                        }
+                        else {
+                            var tds = row.find('td');
+                            $.each(tds, function () {
+                                if ($(this).attr("id") == "Validate2") {
+                                    $(this).text("");
+                                }
+                            })
+                            console.log("Time is numeric and 4 char. No error message.");
+                        }
+                    }
+                    else {
+                        var tds = row.find('td');
+                        $.each(tds, function () {
+                            if ($(this).attr("id") == "Validate1" || $(this).attr("id") == "Validate2") {
+                                $(this).text("");
+                            }
+                        })
+                        console.log("Location record not checked");
+                    }
+                })
+
+                if (validated == true) {
+                    if (found == true) {
+                        var reply = confirm("Are you sure that you want to proceed with the selected samples?");
+                        console.log("Validation passed and at least one location record checked");
+                        console.log("Confirmation message displayed - are you sure...?");
+                        if (reply == true) {
+                            console.log("Reply is true - call PutSamples function");
+                            PutSamples();
+                        }
+                    }
+                    else {
+                        alert("Please select at least one Sample");
+                        console.log("No location records were checked - display alert to select at least one sample");
+                    }
+                }
+            }
+
+            function GetLocationsByRequestGroupID() {
+                $.ajaxSetup({ cache: false });
+                var url = '@Url.Action("GetSampleLocations", "User")';
+                $.getJSON(url, function (response) {
+                    if (response.length) {
+                        var row = "";
+                        $.each(response, function (index, item) {
+                            row += "<tr><td><input type='checkbox' id='locationCheckbox' name='" + item.LocationID + "'" +
+                                " class='my_chkBox' /></td><td>" + item.Label + " - " + item.Location +
+                                "</td><td id='requestGroup' name='" + item.RequestGroupID + "'>" + item.RequestGroup + "</td><td><input type='number' class='my_textbox' id='locationBatchTextbox' value='" + item.Batch + "' name='batch'></td><td id='Validate1' style='color:red'></td><td><input type='text' class='my_textbox' id='locationTimeTextbox' name='time'></td><td id='Validate2' style='color:red'></td></tr>";
+                        })
+                        $("#locations").html(row);
+                    }
+                    else {
+                        $("#locations").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+                    }
+                });
+            }
+
+            function PutSamples() {
+                console.log("PutSamples function called successfully");
+                var jsonObj = [];
+                var item = {};
+                var model = @Html.Raw(Json.Encode(Model))
+                    console.log("Variables set successfully");
+                item = {};
+                item["First"] = model.CollectedDate;
+                item["Second"] = model.CollectedBy;
+                item["Third"] = ""
+                item["Fourth"] = ""
+                jsonObj.push(item);
+                console.log("Jquery array loaded successfully");
+                $("#locations").find('tr').each(function () {
+                    console.log("Iterate through location rows");
+                    var row = $(this);
+                    if (row.find('input[type="checkbox"]').is(':checked')) {
+                        console.log("If location row is checked");
+                        var id = row.find('input[type="checkbox"]').attr("name");
+                        console.log("Set id");
+                        var batch = row.find('#locationBatchTextbox').val();
+                        console.log("Set batch");
+                        var time = row.find('#locationTimeTextbox').val();
+                        console.log("Set time");
+                        var requestGroupID;
+
+                        var tds = row.find('td');
+                        $.each(tds, function () {
+                            if ($(this).attr("id") == "requestGroup") {
+                                requestGroupID = $(this).attr("name");
+                                console.log("Set request group id");
+                            }
+                        })
+
+                        item = {}
+                        item["First"] = id;
+                        item["Second"] = batch;
+                        item["Third"] = time;
+                        item["Fourth"] = requestGroupID;
+
+                        jsonObj.push(item);
+                        console.log("Jquery array loaded successfully for location id, batch, time, and request group id");
+                    }
+                });
+                jsonString = JSON.stringify(jsonObj);
+                console.log("Stringify json object success");
+                var url = '@Url.Content("~/User/PutSamples")';
+                console.log("Set url for controller action - ~/User/PutSamples");
+                var urlRedirect = '@Url.Content("~/User/ResultNew")';
+                console.log("Set url for redirect action - ~/User/ResultNew");
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: { json: jsonString },
+                    success: function () {
+                        window.location.href = urlRedirect;
+                        console.log("Ajax call success");
+                    },
+                    error: function (xhr, status, thrownError) {
+                        console.log("Ajax call error");
+                        console.log(xhr.status);
+                        console.log(xhr.statusText);
+                        console.log(thrownError);
+                        console.log(status);
+                    },
+                });
+            }
+</script>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->

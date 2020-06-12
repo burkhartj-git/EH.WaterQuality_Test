@@ -1,0 +1,72 @@
+﻿@using EHWaterQuality.ViewModels
+@model TestGroupEditViewModel
+@{
+    ViewBag.Title = "Edit / New Test Group";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Test Group Description</label>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.TestGroupDescription)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.TestGroupDescription)</span>
+                        @Html.HiddenFor(model => model.TestGroupID)
+                        @if (Model.ShowMessageDescription == true)
+                        { 
+                            <span style="color:red">@Html.DisplayFor(m => m.MessageDescription)</span>
+                        }
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="save">Save</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+
+            })
+
+            $(function () {
+                $.datepicker.setDefaults(
+                    $.extend($.datepicker.regional[''])
+                );
+                $(".datepicker").datepicker();
+                //$(".datepicker").datepicker("setDate", new Date);
+            });
+
+            $('#back').click(function () {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.TestGroupID;
+                var url = '@Url.Action("Index", "TestGroup", new { ID = "_id_" })'.replace('_id_', id);
+                window.location.href = url;
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->
+

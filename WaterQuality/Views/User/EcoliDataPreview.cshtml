@@ -1,0 +1,130 @@
+﻿@using EHWaterQuality.ViewModels
+@model EcoliDataPreviewViewModel
+@{
+    ViewBag.Title = "Preview Ecoli Data";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("EcoliDataPreview", "User", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    @Html.HiddenFor(Model => Model.ExcelFilePath)
+                    @Html.HiddenFor(Model => Model.SelectedTestType)
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="submit" class="btn blue" value="Error" id="save" disabled />
+                        <input type="button" class="btn blue" value="Back" id="back" />
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row" id="message">
+                    <div class="col-md-12">
+                        <span style="color:red">@Html.DisplayFor(Model => Model.ErrorMessage)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Ecoli Data
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover" id="tblEcoliDataPreview">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Site ID
+                                                </th>
+                                                <th>
+                                                    Collect Date
+                                                </th>
+                                                <th>
+                                                    Collect Time
+                                                </th>
+                                                <th>
+                                                    Test Name
+                                                </th>
+                                                <th>
+                                                    Reported Result
+                                                </th>
+                                                <th>
+                                                    Sample Type
+                                                </th>
+                                                <th>
+                                                    Sample Media
+                                                </th>
+                                                <th>
+                                                    Units
+                                                </th>
+                                                <th>
+                                                    Flag
+                                                </th>
+                                                <th>
+                                                    Method
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @Html.EditorFor(model => model.EcoliDataPreviews)
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+        $(document).ready(function () {
+            SetSave();
+        })
+
+        $('#back').click(function () {
+            RenderEcoliDataUploadView();
+        })
+        function RenderEcoliDataUploadView() {
+            var url = "@Url.Action("EcoliDataUpload", "User")";
+            window.location.href = url;
+        }
+
+        function SetSave() {
+            var model = @Html.Raw(Json.Encode(Model));
+            if (model.HasErrors == false) {
+                document.getElementById("save").disabled=false;
+                document.getElementById("save").value="Save";
+                document.getElementById("message").innerHTML="<div class='col-md-12'><span style='color:green'>No errors found in the Ecoli Data.</span></div>";
+            }
+        }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

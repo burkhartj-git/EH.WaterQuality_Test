@@ -1,0 +1,144 @@
+﻿@using EHWaterQuality.ViewModels
+@model LocationEditViewModel
+@{
+    ViewBag.Title = "Edit / New Location";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Station #</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Station)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.Station)</span>
+                        @Html.HiddenFor(model => model.LocationID)
+                        @Html.HiddenFor(model => model.SearchText)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Description</label>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.Description, new { style = "width:500px;" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.Description)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">X Coordinate</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.XCoordinate)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.XCoordinate)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Y Coordinate</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.YCoordinate)
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.YCoordinate)</span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Effective Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.EffectiveDate, new { @class = "datepicker", id = "effectiveDate" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.EffectiveDate)</span>
+                        <span class="help-block">
+                            Enter Date in mm/dd/yyyy format or choose a date using calendar
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Expired Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ExpiredDate, new { @class = "datepicker", id = "expiredDate" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.ExpiredDate)</span>
+                        <span class="help-block">
+                            Enter Date in mm/dd/yyyy format or choose a date using calendar
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Water Body</label>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(m => m.SelectedWaterBody, Model.WaterBodies, "- Please Select -", new { id = "waterBodies" })
+                    </div>    
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Water Shed</label>
+                    <div class="col-md-6">
+                        @Html.DropDownListFor(m => m.SelectedWaterShed, Model.WaterSheds, "- Please Select -", new { id = "waterSheds" })
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2">Order Up/Down</label>
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(model => model.OrderUpDown)
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn blue" id="save">Save</button>
+                        <button type="button" class="btn blue" id="back">Back</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+
+            })
+
+            $(function () {
+                $.datepicker.setDefaults(
+                    $.extend($.datepicker.regional[''])
+                );
+                $(".datepicker").datepicker();
+                //$(".datepicker").datepicker("setDate", new Date);
+            });
+
+            $('#back').click(function () {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.LocationID;
+                var search = model.SearchText;
+                var url = '@Url.Action("Index", "Location", new { ID = "_id_", Search = "_search_" })'.replace('_id_', id).replace('_search_', search);
+                window.location.href = url;
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

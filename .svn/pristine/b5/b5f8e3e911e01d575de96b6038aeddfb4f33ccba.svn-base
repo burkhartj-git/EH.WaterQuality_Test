@@ -1,0 +1,871 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="Tablix2">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>2.31826in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>1.7766in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>0.67251in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.07888in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.21875in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="COLLECTED_DATE">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!COLLECTED_DATE.Value</Value>
+                              <Style>
+                                <FontSize>9pt</FontSize>
+                                <Format>MM/dd/yyyy</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>COLLECTED_DATE</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="COLLECTED_TIME">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!COLLECTED_TIME.Value</Value>
+                              <Style>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>COLLECTED_TIME</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="WATER_TEMP">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!WATER_TEMP.Value</Value>
+                              <Style>
+                                <FontSize>9pt</FontSize>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>WATER_TEMP</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="RESULT_VALUE">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!RESULT_VALUE.Value</Value>
+                              <Style>
+                                <FontSize>9pt</FontSize>
+                                <Format>0.00</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>RESULT_VALUE</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>White</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details" />
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <RepeatColumnHeaders>true</RepeatColumnHeaders>
+        <RepeatRowHeaders>true</RepeatRowHeaders>
+        <DataSetName>watershed_single_station</DataSetName>
+        <Top>0.0375in</Top>
+        <Left>0.11833in</Left>
+        <Height>0.21875in</Height>
+        <Width>6.84625in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>0.31875in</Height>
+    <Style />
+  </Body>
+  <Width>7.11458in</Width>
+  <Page>
+    <PageHeader>
+      <Height>1.92709in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox18">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Macomb County Health Department
+Environmental Health Services</Value>
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox18</rd:DefaultName>
+          <Height>0.43056in</Height>
+          <Width>6.05556in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox51">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!WATER_BODY_NAME.Value, "watershed_single_station")</Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox51</rd:DefaultName>
+          <Top>1.02778in</Top>
+          <Left>3.14604in</Left>
+          <Height>0.20486in</Height>
+          <Width>3.92708in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox53">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Water Body : </Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox53</rd:DefaultName>
+          <Top>1.01736in</Top>
+          <Left>0.11479in</Left>
+          <Height>0.17708in</Height>
+          <Width>2.10329in</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox54">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Sample Location/Description :</Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox53</rd:DefaultName>
+          <Top>1.22014in</Top>
+          <Left>0.11479in</Left>
+          <Height>0.1875in</Height>
+          <Width>2.10329in</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox55">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Sample Site :</Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox53</rd:DefaultName>
+          <Top>1.38958in</Top>
+          <Left>0.11479in</Left>
+          <Height>0.17709in</Height>
+          <Width>2.10329in</Width>
+          <ZIndex>4</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox77">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!LOCATION_DESC.Value, "watershed_single_station")</Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox77</rd:DefaultName>
+          <Top>1.22014in</Top>
+          <Left>3.13896in</Left>
+          <Height>0.1875in</Height>
+          <Width>3.92354in</Width>
+          <ZIndex>5</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox78">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!LOCATION_LABEL.Value, "watershed_single_station")</Value>
+                  <Style>
+                    <FontSize>9pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox77</rd:DefaultName>
+          <Top>1.38958in</Top>
+          <Left>3.1425in</Left>
+          <Height>0.17709in</Height>
+          <Width>3.92354in</Width>
+          <ZIndex>6</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox221">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Collected Date</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox221</rd:DefaultName>
+          <Top>1.62917in</Top>
+          <Left>0.10771in</Left>
+          <Height>0.25in</Height>
+          <Width>1.16313in</Width>
+          <ZIndex>7</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Bottom</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox222">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Time</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox221</rd:DefaultName>
+          <Top>1.62917in</Top>
+          <Left>2.41181in</Left>
+          <Height>0.25in</Height>
+          <Width>0.65271in</Width>
+          <ZIndex>8</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <VerticalAlign>Bottom</VerticalAlign>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox223">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Water Temp</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox221</rd:DefaultName>
+          <Top>1.50417in</Top>
+          <Left>4.42049in</Left>
+          <Height>0.375in</Height>
+          <Width>0.46521in</Width>
+          <ZIndex>9</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox224">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>E. Coli  (cts/100ml)</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox221</rd:DefaultName>
+          <Top>1.49362in</Top>
+          <Left>6.125in</Left>
+          <Height>0.375in</Height>
+          <Width>0.9375in</Width>
+          <ZIndex>10</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Line Name="Line1">
+          <Top>1.86306in</Top>
+          <Left>0.10771in</Left>
+          <Height>0in</Height>
+          <Width>6.95479in</Width>
+          <ZIndex>11</ZIndex>
+          <Style>
+            <Border>
+              <Color>Gray</Color>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+        <Image Name="Image4">
+          <Source>Embedded</Source>
+          <Value>wsSingle1</Value>
+          <Sizing>FitProportional</Sizing>
+          <Top>0.11111in</Top>
+          <Left>6.125in</Left>
+          <Height>0.8368in</Height>
+          <Width>0.9375in</Width>
+          <ZIndex>12</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <PageFooter>
+      <Height>0.45834in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="ExecutionTime">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>= FormatDateTime(Globals!ExecutionTime)</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>ExecutionTime</rd:DefaultName>
+          <Top>0.18194in</Top>
+          <Left>0.10771in</Left>
+          <Height>0.19792in</Height>
+          <Width>2.21454in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="PageNumber">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>Page </Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Globals!PageNumber</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value> of </Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+                <TextRun>
+                  <Value>=Globals!TotalPages</Value>
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>PageNumber</rd:DefaultName>
+          <Top>0.18194in</Top>
+          <Left>4.34108in</Left>
+          <Height>0.19792in</Height>
+          <Width>2.72142in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageFooter>
+    <LeftMargin>0.5in</LeftMargin>
+    <RightMargin>0.5in</RightMargin>
+    <TopMargin>0.5in</TopMargin>
+    <BottomMargin>0.5in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="WaterQuality">
+      <DataSourceReference>EH.WaterQuality</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>c6f0b796-8808-418c-82a0-12de3de403d3</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="watershed_single_station">
+      <Query>
+        <DataSourceName>WaterQuality</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="P_START_DATE">
+            <Value>=Parameters!P_START_DATE.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="P_END_DATE">
+            <Value>=Parameters!P_END_DATE.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="P_LABEL">
+            <Value>=Parameters!P_LABEL.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>GET_RPT_DATA_WS_SINGLE</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="COLLECTED_DATE">
+          <DataField>COLLECTED_DATE</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="COLLECTED_TIME">
+          <DataField>COLLECTED_TIME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RESULT_VALUE">
+          <DataField>RESULT_VALUE</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LOCATION_DESC">
+          <DataField>LOCATION_DESC</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="WATER_BODY_NAME">
+          <DataField>WATER_BODY_NAME</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="WATER_TEMP">
+          <DataField>WATER_TEMP</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="LOCATION_LABEL">
+          <DataField>LOCATION_LABEL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="watershed_label">
+      <Query>
+        <DataSourceName>WaterQuality</DataSourceName>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>GET_RPT_DATA_WS_LABEL</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="LABEL">
+          <DataField>LABEL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="watershed_label_detail">
+      <Query>
+        <DataSourceName>WaterQuality</DataSourceName>
+		  <QueryParameters>
+			  <QueryParameter Name="@P_LABEL">
+				  <Value>=Parameters!P_LABEL.Value</Value>
+			  </QueryParameter>
+		  </QueryParameters>
+	    <CommandType>StoredProcedure</CommandType>
+	    <CommandText>GET_RPT_DATA_WS_LABEL_DETAIL</CommandText>
+	    <rd:UseGenericDesigner>true</rd:UseGenericDesigner>        
+      </Query>
+      <Fields>
+        <Field Name="DESCRIPTION">
+          <DataField>DESCRIPTION</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LABEL">
+          <DataField>LABEL</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="water_body">
+          <DataField>WATER bODY</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="P_START_DATE">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=DateSerial(year(now),1,1)</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Start Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="P_END_DATE">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=DateSerial(year(now),12,31)</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>End Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="P_LABEL">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <DataSetReference>
+          <DataSetName>watershed_label</DataSetName>
+          <ValueField>LABEL</ValueField>
+        </DataSetReference>
+      </DefaultValue>
+      <Prompt>Sample Nbr</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>watershed_label</DataSetName>
+          <ValueField>LABEL</ValueField>
+          <LabelField>LABEL</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function getWaterBody (ByVal labels As string) As String
+        return "someting"
+    End Function</Code>
+  <EmbeddedImages>
+    <EmbeddedImage Name="wsSingle">
+      <MIMEType>image/gif</MIMEType>
+      <ImageData>R0lGODlhSABIAOcAAAAA/////wBzmvMe+Gs8q9MHKAB7nfMe+D8e9AAAAD8fGj8fIj8fRgEABwAAAQAAAQAAAj8fWj8fXHz0AdMaBABzmvMe+Gs8rtMHKAB7nfMe+D8fXgAAAD8fhj8fkD8fxAEABwAAAQAAAQAAAj8f2j8f3Hz0AtMaBABzmvMe+Gs8sNMHKAB7nfMe+D8f3gAAAD8gBD8gDD8gGAEABwAAAQAAAgAABj8gLD8gOHz0BdMaBABzmvMe+Gs8sdMHKAB7nfMe+D8gRAAAAD8gbD8gdj8gkAEABwAAAQAAAgAAAj8gpj8gqnz0BtMaBABzmvMe+Gs8r9MHKAB7nfMe+D8grgAAAD8g1D8g3D8g6AEABwAAAQAAAQAACD8g/D8hBHUAQmwAaS0AdG4AaUIAIFAATUMAIGQAb2MAZUIAAFAATSoAAEIALlAATSoAO0QALkIASSoAO1IALkUATGkAAGEAbWUAZ2IAL3AAbUIAAEL//2kAdXQAbGkALSAAblAASkcARUMAIGQAb2MAZUoAAEUAUAAARy4AKlAASjsARy4AKlAASkcARSoAO0oALkUAUCoAO0oALkkARgAARm0AaWcAYS8AZXAAamcAZf8AAEL//2kAdXQAbGkALSAAbkkARyAARm8AQ2UAZAAAY0kARwAARi4AKkkARwAARm0AaWcAYS8AZWkAZwAAZkZJR0dhOTc4Rv///////////3UAQmwAaS0AdG4AaVQAIEYASSAARm8AQ2UAZAAAY0kAVEYARioAAFQALkYASSoAO1QALkYASQAARm0AaWcAYS8AZWkAdGYAZkkAAP9NTUL//2kAdXQAbGkALSAAbk4AUCAAR28AQ2UAZAAAY04AUAAARy4AKk4AUAAAR20AaWcAYS8AZW4AcAAAZ05QiRoKDf///////wgAjzwBuD8LID0rKD6CCOHk/wAAAQQABAgAizwBmD8ncD6T+D6mmLXk/3QAASQABQ8B
+hyudGAAACAAACAAAAHJhZHVsYjAAAHNwLikAGggAgCH5BAAAAP8ALAAAAABIAEgAAAj+AAMIHEiwoMGDAgEoXIiwocOHEB0yDKBwYEWEEyNq3GhxYsWFABqCDMmx5EOQCUdeNKiSpEmTK1FSDDny4MqZL2GilDmTZ8GbFHvmjPjRo8ufGGv2BDo0pdOMHVtmVCkUatOdJGNK3dpRaMqjOYs6/bq17NSjTEtqDbrUrFuXa4fenPu2blaxONXGtcvX6F2wGhl6bBq1JUGrELX+JUzWcF6OZ8kyfvs4YWK8bQnbfYz4MNy/nTf2bQvYs2nSV6WSpunT5sWiVMOqXg02tOHZL2H7VYra9e7Wolkr5dpbZGPggYWfxV1ZInG9oD0/Z3r7uWW2gF/zpm3UK3fr2K/+F449nqrjwd9LB83O/Phw3jzNIg1fvrNb8WgVK56fVTp5/+2x1VVjp1l03WcBrrYUSywpR1dwjjWI1YS2+RSahP/9ZB6FaS1Ik3fOFefbR5IBuJt/lzmoXom6YXiidCmKiOFYiLVm34pRfRUjjWlZaNWFOmImUkw5zueVjx26B6SOB0LlZHTa4QieixoKhuRxmSUV4ZA/csgkll9WmaGYT8Kn3ZFlajlmfe/RBVqUcI64nYtwzokdUBv2mCCZ8kFWFp1LKrllcuDpFqigdhJlnZXIqfmnTsy9SGifkJIXpYDObWYglybqJ1iKdRmJEZ91Nsrmo6Iq2uaanVKaWk2KU5J631VYxnqqrX6+SdtJo72636ByUnooir8mCmh7wwZZm4qqzlqkXpn11SuuXJoprbDAqloVgtfOmaxEyrbK14AgasbaWIguGhljTSoornGcsWtiuNo2mWRq3gkZbH+sslsjWk/lF6a8auYl0104vUcwhCqeud/CuX3pcLYQQzigofdWHHFzCwcEADs=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="wsSingle1">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>efdfc537-eaee-4e99-a574-41d7905fc3f7</rd:ReportID>
+</Report>

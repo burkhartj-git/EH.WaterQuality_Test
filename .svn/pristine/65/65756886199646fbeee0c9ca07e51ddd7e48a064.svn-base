@@ -1,0 +1,60 @@
+﻿@using EHWaterQuality.ViewModels
+@model LocationGroupCreateLocationViewModel
+@{
+    ViewBag.Title = "Edit / New Assign Location to Location Group";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @using (Html.BeginForm("Create", "LocationGroup", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+        {
+            <div class="row">
+                <label class="control-label col-md-2">Location Group Description</label>
+                <div class="col-md-4">
+                    @Model.LocationGroupDescription
+                    @Html.HiddenFor(model => model.LocationGroupID)
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <label class="control-label col-md-2">Location</label>
+                <div class="col-md-6">
+                    @Html.DropDownListFor(m => m.SelectedLocation, Model.Locations, new { id = "locations" })
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn blue">Save</button>
+                    <button type="button" class="btn blue" id="back">Back</button>
+                </div>
+            </div>
+        }
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    var model = @Html.Raw(Json.Encode(Model));
+                    var id = model.LocationGroupID;
+                    var url = '@Url.Action("Details", "LocationGroup", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                })
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

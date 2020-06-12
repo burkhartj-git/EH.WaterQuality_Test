@@ -1,0 +1,85 @@
+﻿@using EHWaterQuality.ViewModels
+@model WeatherDataPreviewViewModel
+@{
+    ViewBag.Title = "Preview Weather Data Confirmation";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @if (Model.HasErrors == false)
+    { 
+        <div class="form-body">
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 style="color:green">All Weather Data has been successfully updated.</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Weather Data - These records are Duplicates and did NOT Save
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-hover" id="tblWeatherDataPreview">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Day
+                                        </th>
+                                        <th>
+                                            Max Temperature
+                                        </th>
+                                        <th>
+                                            Min Temperature
+                                        </th>
+                                        <th>
+                                            Mean Temperature
+                                        </th>
+                                        <th>
+                                            Water Precipitation
+                                        </th>
+                                        <th>
+                                            Max Wind Speed
+                                        </th>
+                                        <th>
+                                            Max Wind Speed Direction
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @Html.EditorFor(model => model.WeatherDataPreviews)
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

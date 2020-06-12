@@ -1,0 +1,370 @@
+﻿@using EHWaterQuality.ViewModels
+@model SampleSearchViewModel
+@{
+    ViewBag.Title = "Search Samples";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Request Group</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedRequestGroup, Model.RequestGroups, new { id = "requestGroupDD" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedRequestGroup)</span>
+                    </div>
+
+                    <label class="control-label col-md-2"><span class="required">* </span>Collected Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.CollectedDate, new { @class = "datepicker", id = "date" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.CollectedDate)</span>
+                        <span class="help-block">
+                            Enter Date as mm/dd/yyyy
+                        </span>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn blue" id="search">Search</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="editSamples" disabled>Edit Selected Samples</button>
+                        <button type="button" class="btn blue" id="editResults" disabled>Edit Selected Sample's Results</button> |
+                        <button type="button" class="btn blue" id="deleteSamples" disabled>Delete Selected Samples</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="javascript:SelectAll();">Select All</a> | <a href="javascript:DeselectAll();">Select None</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Samples
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Select
+                                                </th>
+                                                <th>
+                                                    Site ID - Location Desc
+                                                </th>
+                                                <th>
+                                                    Collected By
+                                                </th>
+                                                <th>
+                                                    Collected Date
+                                                </th>
+                                                <th>
+                                                    Batch Number
+                                                </th>
+                                                <th>
+                                                    Collected Time in hhmm format
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="samples"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <hr />
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-cogs"></i>Samples without a Request Group for the Collected Date
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-scrollable">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Site ID - Location Desc
+                                    </th>
+                                    <th>
+                                        Collected By
+                                    </th>
+                                    <th>
+                                        Collected Date
+                                    </th>
+                                    <th>
+                                        Batch Number
+                                    </th>
+                                    <th>
+                                        Collected Time in hhmm format
+                                    </th>
+                                    <th>
+                                        Edit Request Group
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="samplesRG"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        @section PageLevelScripts {
+            <script>
+    $(document).ready(function () {
+        SearchCheck();
+
+        $("#search").on('click', function () {
+            SearchClick();
+        })
+        $("#editSamples").on('click', function () {
+            if (ValidateSamples() == true) {
+                PutSamples();
+            }
+            else {
+                alert("Please select at least one Sample");
+            }
+        })
+        $("#editResults").on('click', function () {
+            if (ValidateSamples() == true) {
+                PutResults();
+            }
+            else {
+                alert("Please select at least one Sample");
+            }
+        })
+        $("#deleteSamples").on('click', function () {
+            if (ValidateSamples() == true) {
+                if (confirm("Are you sure that you want to delete the selected samples and associated results?")) {
+                    DeleteSamples();
+                }
+            }
+            else {
+                alert("Please select at least one Sample");
+            }
+        })
+    })
+
+    $(function () {
+        $.datepicker.setDefaults(
+            $.extend($.datepicker.regional[''])
+        );
+        $(".datepicker").datepicker();
+        //$(".datepicker").datepicker("setDate", new Date);
+    });
+
+    function SearchCheck() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var searchClicked = model.SearchClicked;
+        if (searchClicked == true) {
+            SearchClick();
+        }
+    }
+
+    function SearchClick() {
+        GetSamplesByRequestGroupIDAndDate();
+        GetSamplesByDateWithoutRequestGroup();
+        this.disabled = true;
+        $("#editSamples").prop('disabled', false);
+        $("#editResults").prop('disabled', false);
+        $("#deleteSamples").prop('disabled', false);
+    }
+
+    function SelectAll() {
+        $("#samples").find('input[type="checkbox"]').prop('checked', true);
+    }
+
+    function DeselectAll() {
+        $("#samples").find('input[type="checkbox"]').prop('checked', false);
+    }
+
+    function GetSamplesByRequestGroupIDAndDate() {
+        var requestGroupID = $('#requestGroupDD').val();
+        var collectedDate = $('#date').val();
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetSamplesByRequestGroupIDAndDate", "User")';
+        $.getJSON(url, { RequestGroupID: requestGroupID, CollectedDate: collectedDate }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='locationCheckbox' name='" + item.SampleID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.LocationLabel + " - " + item.LocationDescription +
+                        "</td><td>" + item.CollectedBy + "</td><td>" + item.CollectedDate + "</td><td>" + item.BatchNumber +
+                        "</td><td>" + item.CollectedTime + "</td></tr>";
+                })
+                $("#samples").html(row);
+            }
+            else {
+                $("#samples").html("<div class='col-md-12'><h2 style='color:red'>No records found based on the search criteria.</h2></div>");
+            }
+        });
+    }
+
+    function GetSamplesByDateWithoutRequestGroup() {
+        var requestGroupID = $('#requestGroupDD').val();
+        var collectedDate = $('#date').val();
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetSamplesByDateWithoutRequestGroup", "User")';
+        $.getJSON(url, { CollectedDate: collectedDate }, function (response) {
+            if (response.length) {
+                var row = "";                
+                $.each(response, function (index, item) {
+                    var urlAction = '@Url.Action("EditRequestGroup", "User", new { @SampleID = "sampleID", @RequestGroupID = "requestGroupID", @CollectedDate = "collectedDate" })';
+                    urlAction = urlAction.replace("sampleID", item.SampleID).replace("requestGroupID", requestGroupID).replace("collectedDate", collectedDate);
+                    var anchor = "<a class='btn btn-details btn-sm' href='" + urlAction + "'>Edit</a>"
+                    row += '<tr><td>' + item.LocationLabel + ' - ' + item.LocationDescription +
+                        '</td><td>' + item.CollectedBy + '</td><td>' + item.CollectedDate + '</td><td>' + item.BatchNumber +
+                        '</td><td>' + item.CollectedTime + '</td><td>' + anchor + '</td></tr>';
+                })
+                $("#samplesRG").html(row);
+            }
+            else {
+                $("#samplesRG").html("<div class='col-md-12'><h2 style='color:red'>No records found based on the search criteria.</h2></div>");
+            }
+        });
+    }
+
+    function ValidateSamples() {
+        var found = false;
+        $("#samples").find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                found = true;
+                return false;
+            }
+        })
+        return found;
+    }
+
+    function PutSamples() {
+        var requestGroupID = $('#requestGroupDD').val();
+        var collectedDate = $('#date').val();
+        var jsonObj = [];
+        $("#samples").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var id = row.find('input[type="checkbox"]').attr("name");
+
+                item = {}
+                item["First"] = id;
+                item["Second"] = "not used";
+                item["Third"] = "not used";
+
+                jsonObj.push(item);
+            }
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/PutSearchSamples")';
+        var urlRedirect = '@Html.Raw(@Url.Action("SampleEdit", "User", new { @RequestGroupID = "_id_", @CollectedDate = "_date_" }))'.replace('_id_', requestGroupID).replace('_date_', collectedDate);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+
+    function PutResults() {
+        var requestGroupID = $('#requestGroupDD').val();
+        var collectedDate = $('#date').val();
+        var jsonObj = [];
+        $("#samples").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var id = row.find('input[type="checkbox"]').attr("name");
+
+                item = {}
+                item["First"] = id;
+                item["Second"] = "not used";
+                item["Third"] = "not used";
+
+                jsonObj.push(item);
+            }
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/PutSearchSamples")';
+        var urlRedirect = '@Html.Raw(@Url.Action("ResultEdit", "User", new { RequestGroupID = "_id_", CollectedDate = "_date_" }))'.replace('_id_', requestGroupID).replace('_date_', collectedDate);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+
+    function DeleteSamples() {
+        var requestGroupID = $('#requestGroupDD').val();
+        var collectedDate = $('#date').val();
+        var jsonObj = [];
+        $("#samples").find('tr').each(function () {
+            var row = $(this);
+            if (row.find('input[type="checkbox"]').is(':checked')) {
+                var id = row.find('input[type="checkbox"]').attr("name");
+
+                item = {}
+                item["First"] = id;
+                item["Second"] = "not used";
+                item["Third"] = "not used";
+
+                jsonObj.push(item);
+            }
+        });
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/DeleteSearchSamples")';
+        var urlRedirect = '@Html.Raw(@Url.Action("SampleSearch", "User", new { @RequestGroupID = "_id_", @CollectedDate = "_date_", @SearchClicked = "true" }))'.replace('_id_', requestGroupID).replace('_date_', collectedDate);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+</script>
+        }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->

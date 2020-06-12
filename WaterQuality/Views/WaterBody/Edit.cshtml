@@ -1,0 +1,69 @@
+﻿@using EHWaterQuality.ViewModels
+@model WaterBodyEditViewModel
+@{
+    ViewBag.Title = "Edit / New Water Body";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        @using (Html.BeginForm("Edit", "WaterBody", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" }))
+        {
+            <div class="row">
+                <label class="control-label col-md-2"><span class="required">* </span>Name</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.WaterBodyName, new { style = "width:300px;" })
+                    <span style="color:red">@Html.ValidationMessageFor(model => model.WaterBodyName)</span>
+                    @Html.HiddenFor(model => model.WaterBodyID)
+                    @if (Model.ShowMessageNameAndDescription == true)
+                    {
+                        <span style="color:red">@Html.DisplayFor(m => m.MessageNameAndDescription)</span>
+                    }
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <label class="control-label col-md-2"><span class="required">* </span>Description</label>
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.WaterBodyDescription, new { style = "width:300px;" })
+                    <span style="color:red">@Html.ValidationMessageFor(model => model.WaterBodyDescription)</span>
+                    @if (Model.ShowMessageNameAndDescription == true)
+                    {
+                        <span style="color:red">@Html.DisplayFor(m => m.MessageNameAndDescription)</span>
+                    }
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn blue">Save</button>
+                    <button type="button" class="btn blue" id="back">Back</button>
+                </div>
+            </div>
+        }
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    var model = @Html.Raw(Json.Encode(Model));
+                    var id = model.WaterBodyID;
+                    var url = '@Url.Action("Index", "WaterBody", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                })
+            })
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

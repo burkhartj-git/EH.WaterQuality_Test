@@ -1,0 +1,44 @@
+﻿@using EHWaterQuality.ViewModels
+@model ChemistryDataPreviewEditorViewModel
+<tr>
+    <td>
+        @Html.DisplayFor(model => model.SiteID)
+        @Html.HiddenFor(model => model.SiteID)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.CollectedDate)
+        @Html.HiddenFor(model => model.CollectedDate)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.CollectedTime)
+        @Html.HiddenFor(model => model.CollectedTime)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.TestName)
+        @Html.HiddenFor(model => model.TestName)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.SampleType)
+        @Html.HiddenFor(model => model.SampleType)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.SampleMedia)
+        @Html.HiddenFor(model => model.SampleMedia)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.ResultValue)
+        @Html.HiddenFor(model => model.ResultValue)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Units)
+        @Html.HiddenFor(model => model.Units)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.Flag)
+        @Html.HiddenFor(model => model.Flag)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.AMethod)
+        @Html.HiddenFor(model => model.AMethod)
+    </td>
+</tr>

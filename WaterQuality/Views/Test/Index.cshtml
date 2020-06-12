@@ -1,0 +1,249 @@
+﻿@using EHWaterQuality.ViewModels
+@model TestIndexViewModel
+@{
+    ViewBag.Title = "Maintain Tests";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Test
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    Select Test and <button type="button" class="btn blue" id="edit">Edit</button>
+                    <button type="button" class="btn blue" id="view">View</button>
+                    <button type="button" class="btn blue" id="delete">Delete</button> |
+                    <button type="button" id="new" class="btn blue">
+                        New Test <i class="fa fa-plus"></i>
+                    </button>
+                    <br />
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Test Name
+                                </th>
+                                <th>
+                                    Units
+                                </th>
+                                <th>
+                                    Sample Media
+                                </th>
+                                <th>
+                                    Sample Type
+                                </th>
+                                <th>
+                                    AMethod
+                                </th>
+                                <th>
+                                    Effective Date
+                                </th>
+                                <th>
+                                    Expired Date
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tests"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Test Name
+                                </th>
+                                <th>
+                                    Units
+                                </th>
+                                <th>
+                                    Sample Media
+                                </th>
+                                <th>
+                                    Sample Type
+                                </th>
+                                <th>
+                                    AMethod
+                                </th>
+                                <th>
+                                    Effective Date
+                                </th>
+                                <th>
+                                    Expired Date
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    Select Test and <button type="button" class="btn blue" id="edit2">Edit</button>
+                    <button type="button" class="btn blue" id="view2">View</button>
+                    <button type="button" class="btn blue" id="delete2">Delete</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        New Test <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetTests();
+    })
+
+    $('#edit').click(function () {
+        EditTest();
+    })
+
+    $('#edit2').click(function () {
+        EditTest();
+    })
+
+    $('#delete').click(function () {
+        DeleteTest();
+    })
+
+    $('#delete2').click(function () {
+        DeleteTest();
+    })
+
+    $('#view').click(function () {
+        ViewTest();
+    })
+
+    $('#view2').click(function () {
+        ViewTest();
+    })
+
+    $('#new').click(function () {
+        NewTest();
+    })
+
+    $('#new2').click(function () {
+        NewTest();
+    })
+
+    function GetTests() {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetTests", "Test")';
+        $.getJSON(url, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='testCheckbox' name='" + item.TestID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.TestName +
+                        "</td><td>" + item.Units +
+                        "</td><td>" + item.SampleMedia +
+                        "</td><td>" + item.SampleType +
+                        "</td><td>" + item.AMethod +
+                        "</td><td>" + item.EffectiveDate +
+                        "</td><td>" + item.ExpiredDate +
+                        "</td></tr>";
+                })
+                $("#tests").html(row);
+                $("#tests").find(":checkbox").click(function () {
+                    $("#tests").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedTest();
+            }
+            else {
+                $("#tests").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedTest() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.ID;
+        if (id != "0") {
+            $('#tests').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == id) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function EditTest() {
+        var id = 0;
+        $('#tests').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Test for edit");
+        }
+        else {
+            var url = '@Url.Action("Edit", "Test", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function DeleteTest() {
+        var id = 0;
+        $('#tests').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                return false;
+            }
+        })
+        if (id == 0) {
+            alert("Please select a Test for delete");
+        }
+        else {
+            var url = '@Url.Action("DeleteTest", "Test", new { ID = "_id_" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+    }
+
+    function ViewTest() {
+        var id = 0;
+        var found = false;
+        $('#tests').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                id = $(this).prop("name").toString();
+                found = true;
+                return false;
+            }
+        })
+        if (found == true) {
+            var url = '@Url.Action("Details", "Test", new { ID = "_id_", TestGroupID = "0" })'.replace('_id_', id);
+            window.location.href = url;
+        }
+        else {
+            alert("Please select a Test Name");
+        }
+    }
+
+    function NewTest() {
+        var id = 0;
+        var url = '@Url.Action("Edit", "Test", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

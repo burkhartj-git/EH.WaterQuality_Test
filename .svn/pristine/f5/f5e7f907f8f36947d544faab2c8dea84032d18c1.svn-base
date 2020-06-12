@@ -1,0 +1,53 @@
+﻿@using EHWaterQuality.ViewModels
+@model SampleEditConfirmViewModel
+@{
+    ViewBag.Title = "Edit Samples Confirmation";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <div class="form-body">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2 style="color:green">     All samples have been successfully updated.</h2>
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-8">
+                        <button type="button" class="btn blue" id="back">Back to Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                $("#back").on('click', function () {
+                    GoBack();
+                })
+            })
+
+            function GoBack() {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.RequestGroupID;
+                var date = model.CollectedDate;
+                var url = '@Html.Raw(@Url.Action("SampleSearch", "User", new { @RequestGroupID = "_id_", @CollectedDate = "_date_", @SearchClicked = "true" }))'.replace('_id_', id).replace('_date_', date);
+                window.location.href = url;
+            }
+        </script>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->
+

@@ -1,0 +1,183 @@
+﻿@using EHWaterQuality.ViewModels
+@model TestGroupDetailsViewModel
+@{
+    ViewBag.Title = "View Test Group";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            Test Group Description: @Model.TestGroupDescription
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <button type="button" class="btn blue" id="back">Back</button>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-edit"></i>Test
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <button type="button" class="btn blue" id="delete">Delete Test from Test Group</button> |
+                    <button type="button" id="new" class="btn blue">
+                        Assign New Test to Test Group <i class="fa fa-plus"></i>
+                    </button>
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Test Description
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="tests"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Test Description
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" class="btn blue" id="delete2">Delete Test from Test Group</button> |
+                    <button type="button" id="new2" class="btn blue">
+                        Assign New Test to Test Group <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+    $(document).ready(function () {
+        GetTests();
+    })
+
+    $('#back').click(function () {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.TestGroupID;
+        var url = '@Url.Action("Index", "TestGroup", new { ID = "_id_" })'.replace('_id_', id);
+        window.location.href = url;
+    })
+
+    $('#delete').click(function () {
+        DeleteTest();
+    })
+
+    $('#delete2').click(function () {
+        DeleteTest();
+    })
+
+    $('#new').click(function () {
+        NewTest();
+    })
+
+    $('#new2').click(function () {
+        NewTest();
+    })
+
+    function GetTests() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var id = model.TestGroupID;
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetTests", "TestGroup")';
+        $.getJSON(url, { TestGroupID : id }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='" + item.TestGroupID + "' name='" + item.TestID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.TestDescription +
+                        "</tr>";
+                })
+                $("#tests").html(row);
+                $("#tests").find(":checkbox").click(function () {
+                    $("#tests").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+                SelectedTest();
+            }
+            else {
+                $("#tests").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function SelectedTest() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var groupID = model.TestGroupID;
+        var testID = model.TestID;
+        if (testID != "0") {
+            $('#tests').find(':checkbox').each(function () {
+                if ($(this).prop("name").toString() == testID &&
+                    $(this).prop("id").toString() == groupID) {
+                    $(this).prop('checked', true);
+                }
+            })
+        }
+    }
+
+    function DeleteTest() {
+        var groupID = 0;
+        var testID = 0;
+        var model = @Html.Raw(Json.Encode(Model));
+        var found = false;
+        $('#tests').find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                testID = $(this).prop("name").toString();
+                groupID = $(this).prop("id").toString();
+                found = true;
+                return false;
+            }
+        })
+        if (found == true) {
+            if (confirm("Are you sure that you want to delete this Test from Test Group?")) {
+                var url = '@Url.Action("Delete", "TestGroup", new { @ID = "_groupID_", @TestID = "_testID_" })'.replace('_testID_', testID).replace('_groupID_', groupID);
+                window.location.href = url;
+            }
+        }
+        else {
+            alert("Please select a Test Description");
+        }
+    }
+
+    function NewTest() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var testGroupID = model.TestGroupID;
+        var url = '@Url.Action("Create", "TestGroup", new { ID = "_testGroupID_" })'.replace('_testGroupID_', testGroupID);
+        window.location.href = url;
+    }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->
+

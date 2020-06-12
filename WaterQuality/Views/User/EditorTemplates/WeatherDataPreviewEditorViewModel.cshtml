@@ -1,0 +1,32 @@
+﻿@using EHWaterQuality.ViewModels
+@model WeatherDataPreviewEditorViewModel
+<tr>
+    <td>
+        @Html.DisplayFor(model => model.Day)
+        @Html.HiddenFor(model => model.Day)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.MaxTemp)
+        @Html.HiddenFor(model => model.MaxTemp)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.MinTemp)
+        @Html.HiddenFor(model => model.MinTemp)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.MeanTemp)
+        @Html.HiddenFor(model => model.MeanTemp)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.WaterPrecip)
+        @Html.HiddenFor(model => model.WaterPrecip)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.MaxWindSpeed)
+        @Html.HiddenFor(model => model.MaxWindSpeed)
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.MaxWindSpeedDir)
+        @Html.HiddenFor(model => model.MaxWindSpeedDir)
+    </td>
+</tr>

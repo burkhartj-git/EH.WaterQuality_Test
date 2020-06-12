@@ -1,0 +1,270 @@
+﻿@using EHWaterQuality.ViewModels
+@model SewerOverflowActivityViewModel
+@{
+    ViewBag.Title = "Sewer Overflow Activity";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="new">New Sewer Overflow Activity</button>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Facility</label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(m => m.SelectedFacility, Model.Facilities, "All", new { id = "facility" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.SelectedFacility)</span>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>Start Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.StartDate, new { @class = "datepicker", id = "startDate" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.StartDate)</span>
+                        <span class="help-block">
+                            Enter Date as mm/dd/yyyy
+                        </span>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <div class="row">
+                    <label class="control-label col-md-2"><span class="required">* </span>End Date</label>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.EndDate, new { @class = "datepicker", id = "endDate" })
+                        <span style="color:red">@Html.ValidationMessageFor(model => model.EndDate)</span>
+                        <span class="help-block">
+                            Enter Date as mm/dd/yyyy
+                        </span>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn blue" id="search">Search</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        Select Sample and <button type="button" class="btn blue" id="edit">Edit</button>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-cogs"></i>Samples
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Select
+                                                </th>
+                                                <th>
+                                                    Title
+                                                </th>
+                                                <th>
+                                                    Activity Start Date
+                                                </th>
+                                                <th>
+                                                    Activity Start Time
+                                                </th>
+                                                <th>
+                                                    Activity End Date
+                                                </th>
+                                                <th>
+                                                    Activity End Time
+                                                </th>
+                                                <th>
+                                                    Duration
+                                                </th>
+                                                <th>
+                                                    Discharge Gallons
+                                                </th>
+                                                <th>
+                                                    Precipitation
+                                                </th>
+                                                <th>
+                                                    Receiving Water
+                                                </th>
+                                                <th>
+                                                    Chlorinate
+                                                </th>
+                                                <th>
+                                                    Meets NPDES
+                                                </th>
+                                                <th>
+                                                    Activity Type
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="activities"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                SearchCheck();
+
+                $("#search").on('click', function () {
+                    SearchClick();
+                })
+                $("#new").on('click', function () {
+                    PutSewerOverflowActivity("0");
+                })
+                $("#edit").on('click', function () {
+                    if (ValidateSamples() == true) {
+                        $("#activities").find('tr').each(function () {
+                            var row = $(this);
+                            if (row.find('input[type="checkbox"]').is(':checked')) {
+                                PutSewerOverflowActivity(row.find('input[type="checkbox"]').attr("name"));
+                                return false;
+                            }
+                        });
+                    }
+                    else {
+                        alert("Please select a Sample for Edit");
+                    }
+                })
+            })
+
+    $(function () {
+        $.datepicker.setDefaults(
+            $.extend($.datepicker.regional[''])
+        );
+        $(".datepicker").datepicker();
+        //$(".datepicker").datepicker("setDate", new Date);
+    });
+
+    function ValidateSamples() {
+        var found = false;
+        $("#activities").find(':checkbox').each(function () {
+            if ($(this).prop("checked") == true) {
+                found = true;
+                return false;
+            }
+        })
+        return found;
+    }
+
+    function SearchCheck() {
+        var model = @Html.Raw(Json.Encode(Model));
+        var searchClicked = model.SearchClicked;
+        if (searchClicked == "true") {
+            SearchClick();
+        }
+    }
+
+    function SearchClick() {
+        var fac = $('#facility').val();
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        if (fac == "") {
+            fac = 0;
+        }
+        if (startDate == "") {
+            startDate = 0;
+        }
+        if (endDate == "") {
+            endDate = 0;
+        }
+        GetActivities(fac, startDate, endDate);
+    }
+
+    function GetActivities(Facility, StartDate, EndDate) {
+        $.ajaxSetup({ cache: false });
+        var url = '@Url.Action("GetSewerOverflowActivities", "User")';
+        $.getJSON(url, { Facility: Facility, StartDate: StartDate, EndDate: EndDate }, function (response) {
+            if (response.length) {
+                var row = "";
+                $.each(response, function (index, item) {
+                    row += "<tr><td><input type='checkbox' id='activityCheckbox' name='" + item.SewerLogID + "'" +
+                        " class='my_chkBox' /></td><td>" + item.Title + "</td><td>" + item.StartDate +
+                        "</td><td>" + item.StartTime + "</td><td>" + item.EndDate +
+                        "</td><td>" + item.EndTime + "</td><td>" + item.Duration +
+                        "</td><td>" + item.DischargeGallons + "</td><td>" + item.Precipitation + "</td><td>" + item.ReceivingWater +
+                        "</td><td>" + item.Chlorinate + "</td><td>" + item.NPDES +
+                        "</td><td>" + item.ActivityType + "</td></tr>";
+                })
+                $("#activities").html(row);
+                $("#activities").find(":checkbox").click(function () {
+                    $("#activities").find(":checkbox").removeAttr("checked");
+                    $(this).prop("checked", true);
+                })
+            }
+            else {
+                $("#activities").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+            }
+        });
+    }
+
+    function PutSewerOverflowActivity(SewerLogID) {
+        var fac = $('#facility').val();
+        if (fac == "") {
+            fac = "0";
+        }
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        var jsonObj = [];
+        var item = {};
+        item["SewerLogID"] = SewerLogID;
+        jsonObj.push(item);
+        jsonString = JSON.stringify(jsonObj);
+        var url = '@Url.Content("~/User/PutSewerOverflowActivity")';
+        var urlRedirect = '@Html.Raw(@Url.Action("SewerOverflowActivityEdit", "User", new { FacilityID = "_id_", SearchStartDate = "_startDate_", SearchEndDate = "_endDate_" }))'.replace('_id_', fac).replace('_startDate_', startDate).replace('_endDate_', endDate);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: { json: jsonString },
+            success: function () {
+                window.location.href = urlRedirect;
+            },
+        });
+    }
+</script>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->

@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Delete Samples";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-delete"></i>Sample
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <span>Select Sample and </span><button type="button" class="btn btn-delete btn-default" id="delete">Delete</button>
+                    <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Sample ID
+                                </th>
+                                <th>
+                                    Location
+                                </th>
+                                <th>
+                                    Collected By
+                                </th>
+                                <th>
+                                    Date Collected
+                                </th>
+                                <th>
+                                    Collected Time
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="samples"></tbody>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    Select
+                                </th>
+                                <th>
+                                    Sample ID
+                                </th>
+                                <th>
+                                    Location
+                                </th>
+                                <th>
+                                    Collected By
+                                </th>
+                                <th>
+                                    Date Collected
+                                </th>
+                                <th>
+                                    Collected Time
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <span>Select Sample and </span><button type="button" class="btn btn-delete btn-default" id="delete2">Delete</button>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    @section PageLevelScripts {
+        <script>
+            $(document).ready(function () {
+                GetSamples();
+            })
+
+            $('#delete').click(function () {
+                DeleteSample();
+            })
+
+            $('#delete2').click(function () {
+                DeleteSample();
+            })
+
+            function GetSamples() {
+                $.ajaxSetup({ cache: false });
+                var url = '@Url.Action("GetSamples", "SampleTbl")';
+                $.getJSON(url, function (response) {
+                    if (response.length) {
+                        var row = "";
+                        $.each(response, function (index, item) {
+                            row += "<tr><td><input type='checkbox' id='sampleCheckbox' name='" + item.SampleID + "'" +
+                                " class='my_chkBox' /></td><td>" + item.SampleID + "</td><td>" + item.Location + "</td><td>" + item.CollectedBy + "</td><td>" + item.DateCollected + "</td><td>" + item.CollectedTime + "</td></tr>";
+                        })
+                        $("#samples").html(row);
+                        $("#samples").find(":checkbox").click(function () {
+                            $("#samples").find(":checkbox").removeAttr("checked");
+                            $(this).prop("checked", true);
+                        })
+                        SelectedSample();
+                    }
+                    else {
+                        $("#samples").html("<div class='col-md-12'><h2 style='color:red'>No records found.</h2></div>");
+                    }
+                });
+            }
+
+            function SelectedSample() {
+                var model = @Html.Raw(Json.Encode(Model));
+                var id = model.ID;
+                if (id != "0") {
+                    $('#samples').find(':checkbox').each(function () {
+                        if ($(this).prop("name").toString() == id) {
+                            $(this).prop('checked', true);
+                        }
+                    })
+                }
+            }
+
+            function DeleteSample() {
+                var id = 0;
+                $('#samples').find(':checkbox').each(function () {
+                    if ($(this).prop("checked") == true) {
+                        id = $(this).prop("name").toString();
+                        return false;
+                    }
+                })
+                if (id == 0) {
+                    alert("Please select a Sample for delete");
+                }
+                else {
+                    var url = '@Url.Action("Delete", "SampleTbl", new { ID = "_id_" })'.replace('_id_', id);
+                    window.location.href = url;
+                }
+            }
+        </script>
+    }
+</body>
+</html>
+<!-- END PAGE CONTENT -->

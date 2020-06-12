@@ -1,0 +1,45 @@
+﻿@using EHWaterQuality.ViewModels
+@model ResultConfirmViewModel
+@{
+    ViewBag.Title = "New Results Confirmation";
+}
+
+<!-- BEGIN PAGE CONTENT -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div class="form-body">
+            <div class="form-group">
+                <div class="row">
+                    <label class="control-label col-md-2">Collected Date</label>
+                    <div class="col-md-2">
+                        @Model.CollectedDate
+                    </div>
+
+                    <label class="control-label col-md-2">Collected By</label>
+                    <div class="col-md-2">
+                        @Model.CollectedBy
+                    </div>
+                    <br/>
+                    <br/>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <h2 style="color:green">     All selected results have been successfully saved.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</body>
+</html>
+<!-- BEGIN PAGE CONTENT -->
